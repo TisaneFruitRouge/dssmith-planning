@@ -13,7 +13,7 @@ class Employe(object):
 
 			self.regime = regime
 
-			self.est_present = True
+			self.est_disponible = True
 
 			self.competences = competences
 
@@ -27,9 +27,19 @@ class Employe(object):
 
 		return string
 
-	def est_present(self):
-		return self.est_present
+	def nb_competences(self):
+		return len(self.competences)
 
+	def get_competence_machine(self, machine):
+		for c in self.competences:
+			if c[0] == machine:
+				return c
+
+	def possede_competence_machine(self, machine):
+		for c in self.competences:
+			if c[0] == machine:
+				return True
+		return False 
 
 
 def old_get_competences(chemin_tab_excel):
@@ -94,10 +104,20 @@ def old_get_competences(chemin_tab_excel):
 	return competences
 
 
+def get_nom_machine(poste):
+	
+	titre_poste = ["palettiseur ", "sous conducteur ", "conducteur ", "prérégleur "]
+
+	for p in titre_poste:
+		poste = poste.replace(p, "")
+
+	return poste.strip()
+
 def new_get_competences(chemin_tab_excel):
 
 	matrice_de_polyvalence = load_workbook(chemin_tab_excel) # on ouvre le tableau excel
 	liste_employes = list() # liste des employés
+
 
 
 	for (index, equipe) in enumerate(matrice_de_polyvalence.worksheets): # on parcours chaque equipe
@@ -110,9 +130,13 @@ def new_get_competences(chemin_tab_excel):
 			employe = ws.cell(column=1, row=r).value
 			competences = list()
 			for c in range(1, ws.max_column): # on parcours toutes les colonnes
-
-				if (ws.cell(column=c, row=r).value == 1): # si la case [c,r] à la valeur 1 alors l'emploé sait conduire ce poste
-					competences.append(ws.cell(column=c, row=2).value)
+				niveau_compétence = ws.cell(column=c, row=r).value
+				if (niveau_compétence in [1,2,3]): # si la case [c,r] à la valeur 1 alors l'emploé sait conduire ce poste
+					
+					poste = ws.cell(column=c, row=2).value.lower()
+					machine = get_nom_machine(poste)
+					poste = poste.replace(machine, "").strip()
+					competences.append((machine, poste, niveau_compétence))
 				
 
 
@@ -201,7 +225,7 @@ def nouvelle_matrice_polyvalence():
 def getkeys(dic):
 
 	l = []
-
+	
 	for key in dic.keys():
 		l.append(key)
 	return l
