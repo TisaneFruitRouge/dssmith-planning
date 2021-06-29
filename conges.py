@@ -41,16 +41,6 @@ def conges(jour: int=jour_courant, mois: int=mois_courant, annee: int=annee_cour
 		if (cellule != None):
 			liste_conges.append(nom)
 
-		'''for j in range(3, 3+nb_jours): # a changer
-			cellule = ws.cell(column=j, row=i).value
-			if (cellule != None):
-				liste_conges.append((f"{j-2}/{2}/{2021}", cellule)) # a changer
-
-		if (liste_conges != []):
-			dic_conges[nom] = liste_conges
-
-	return dic_conges '''
-
 	return liste_conges
 
 

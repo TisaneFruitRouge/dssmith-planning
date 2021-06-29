@@ -30,10 +30,12 @@ class Employe(object):
 	def nb_competences(self):
 		return len(self.competences)
 
-	def get_competence_machine(self, machine):
+	def get_competences_machine(self, machine):
+		l = []
 		for c in self.competences:
 			if c[0] == machine:
-				return c
+				l.append(c)
+		return l
 
 	def possede_competence_machine(self, machine):
 		for c in self.competences:
@@ -232,9 +234,7 @@ def getkeys(dic):
 
 if __name__ == '__main__':
 
-	nouvelle_matrice_polyvalence()
-
-	employes = new_get_competences("test.xlsx")
+	employes = new_get_competences("Matrice de polyvalence.xlsx")
 
 	for e in employes: 
 		print(e)
