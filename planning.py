@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 from conges import *
 from competences import *
 from ouvertures import *
@@ -41,11 +44,11 @@ def get_classement_ouvriers(employes: list, ouvertures: dict):
 
 			competences = e.get_competences_machine(machine)
 			for competence in competences:
-				if (competence[1] == "conducteur"):
+				if (competence[1] == 0):
 					classement_poste_ouvrier[machine][0].append((e, competence[2]))
-				if (competence[1] == "sous conducteur"):
+				if (competence[1] == 1):
 					classement_poste_ouvrier[machine][1].append((e, competence[2]))
-				if (competence[1] in ["prérégleur", "paletisseur", "préparateur", ""]):
+				if (competence[1] == 2):
 					classement_poste_ouvrier[machine][2].append((e, competence[2]))
 
 		while [] in classement_poste_ouvrier[machine]: classement_poste_ouvrier[machine].remove([])
@@ -64,8 +67,26 @@ def remplir_poste(classement_ouvrier: dict, machine: str, poste: int):
 		i+=1
 		employe = classement_ouvrier[machine][poste][i]
 	employe[0].est_disponible = False
+	employe[0].poste_occupe = (machine, poste)
 
-	return employe[0].nom
+	return (poste, employe[0].nom)
+
+def trouver_remplaçant(employe, liste_employes_disponibles: list):
+
+	for e in liste_employes_disponibles:
+		
+		machine = employe[0].poste_occupe[0]
+		poste = employe[0].poste_occupe[1]
+
+		if not e.possede_competence_machine(machine):
+			continue
+		else :
+			competences = e.get_competences_machine(machine)
+			for competence in competences:
+				if poste == competence[1]:
+				 	return e
+
+	return None
 
 def planning_periode(employes: list, ouvertures: dict):
 
@@ -76,26 +97,68 @@ def planning_periode(employes: list, ouvertures: dict):
 
 	for machine in getkeys(ouvertures):
 
-		planning[machine] = []
+		planning[machine] = [None, None, None] # on essaye de remplir chaque poste de la machine
 		try: 
-			planning[machine].append(remplir_poste(classement_poste_ouvrier, machine, 0))
+			planning[machine][0] = remplir_poste(classement_poste_ouvrier, machine, 0)
 		except: 
 			pass
 		try: 
-			planning[machine].append(remplir_poste(classement_poste_ouvrier, machine, 1))
+			planning[machine][1] = remplir_poste(classement_poste_ouvrier, machine, 1)
 		except: 
 			pass
 		try: 
-			planning[machine].append(remplir_poste(classement_poste_ouvrier, machine, 2))
+			planning[machine][2] = remplir_poste(classement_poste_ouvrier, machine, 2)
 		except: 
 			pass
+
+
+	liste_employes_disponibles = []
+
+	for e in employes:
+		if e.est_disponible:
+			liste_employes_disponibles.append(e)
+
+	for machine in getkeys(ouvertures):
+		for poste in range(2):
+			if planning[machine][poste] == None:
+				classement_machine = classement_poste_ouvrier[machine]
+				if classement_machine == [] : continue
+				else :
+					if poste==1 and len(classement_machine) == 1:
+						continue 
+					else :
+						classement = classement_poste_ouvrier[machine][poste]
+
+				remplaçant = None
+
+				for e in classement :
+
+					remplaçant = trouver_remplaçant(e, liste_employes_disponibles)
+					if not remplaçant==None: 
+						
+						liste_employes_disponibles.remove(remplaçant)
+
+						ancienne_machine = e[0].poste_occupe[0]
+						ancien_poste     = e[0].poste_occupe[1]
+
+						remplaçant.poste_occupe = (ancienne_machine, ancien_poste)
+						planning[ancienne_machine][ancien_poste] = (remplaçant.nom, ancien_poste)
+
+						print(ancienne_machine)
+						print(ancien_poste)
+						print(remplaçant)
+
+						e[0].poste_occupe = (machine, poste)	
+						planning[machine][poste] = (e[0].nom, poste)
+
+
 
 	return planning
 
 
-def planning(jour: int, mois: int, annee: int, journee: str, matin: str, aprem: str, nuit: str):
+def get_planning(jour: int, mois: int, annee: int, journee: str, matin: str, aprem: str, nuit: str):
 
-	employes     = new_get_competences("Matrice de polyvalence.xlsx") # on créer la liste des employés
+	employes     = new_get_competences("Matrice de polyvalence1.xlsx") # on créer la liste des employés
 	liste_conges = conges(jour, mois, annee) # on créer la liste des congés
 	ouvertures   = get_ouvertures(chemin_ouverture) # on créer la liste des onvertures
 
@@ -128,10 +191,16 @@ def planning(jour: int, mois: int, annee: int, journee: str, matin: str, aprem: 
 	planning.append(planning_periode(employes_aprem, ouvertures_jour[1]))
 	planning.append(planning_periode(employes_nuit, ouvertures_jour[2]))
 
+	i = 0
+
+	for e in employes_nuit+employes_matin+employes_aprem:
+		if e.est_disponible: i+=1
+
+	print(i)
+
 	return planning
-	
 
 
 if __name__ == "__main__":
-	planning = planning(1,2,2021, "Lundi", "ROUGE", "VERTE", "BLEUE")
-	print(json.dumps(planning, sort_keys=True, indent=3))
+	planning = get_planning(1,2,2021, "Lundi", "ROUGE", "VERTE", "BLEUE")
+	print(planning)

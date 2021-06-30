@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from openpyxl import *
 from openpyxl.styles import PatternFill
 import json
@@ -14,8 +16,10 @@ class Employe(object):
 			self.regime = regime
 
 			self.est_disponible = True
+			self.poste_occupe = None
 
-			self.competences = competences
+
+			self.competences = competences # (machine, poste, niveau)
 
 	def __str__(self):
 		string = "########################\n"
@@ -130,6 +134,7 @@ def new_get_competences(chemin_tab_excel):
 
 		for r in range(3, ws.max_row):	# on parcours toutes les lignes
 			employe = ws.cell(column=1, row=r).value
+			if (employe==None): continue # si la case est vide
 			competences = list()
 			for c in range(1, ws.max_column): # on parcours toutes les colonnes
 				niveau_compétence = ws.cell(column=c, row=r).value
@@ -138,6 +143,12 @@ def new_get_competences(chemin_tab_excel):
 					poste = ws.cell(column=c, row=2).value.lower()
 					machine = get_nom_machine(poste)
 					poste = poste.replace(machine, "").strip()
+					if poste == "conducteur":
+						poste = 0
+					elif poste == "sous conducteur":
+						poste = 1
+					else : 
+						poste = 2
 					competences.append((machine, poste, niveau_compétence))
 				
 
