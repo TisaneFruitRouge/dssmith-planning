@@ -1,0 +1,99 @@
+html {
+	font-family: "Gill Sans", sans-serif;
+}
+
+#titres-periodes {
+
+	display: flex;
+	flex-direction: row;
+
+}
+
+#titres-periodes > h3{
+	padding:  10px;
+	border: solid 1px black;
+}
+
+h3.est-actif {
+	color: white;
+	background-color: black;
+}
+
+h3.pas-actif {
+	color: black;
+	background-color:white;
+}
+
+.planning-periode{
+	margin-left: 20px;
+}
+
+.machine {
+
+	margin-top: 20px;
+
+	display:  flex;
+	flex-direction: column;
+}
+
+.machine #nom-machine {
+	text-transform: uppercase;
+}
+
+.machine #nom-machine:hover {
+	cursor: pointer;
+	text-decoration:underline;
+}
+
+
+
+
+.employes-disponibles {
+	margin-left: 50px;
+
+	display:  flex;
+	flex-direction: row;
+	gap: 20px;
+}
+
+.employes-disponibles > p {
+
+	padding: 15px 30px;
+
+	text-align: center;
+
+	border-radius: 20px;
+
+	background-color:  lightgrey;
+}
+
+
+.postes {
+
+	margin-left: 50px;
+
+	display:  flex;
+	flex-direction: row;
+	gap: 20px;
+}
+
+.postes > p {
+
+	padding: 15px 30px;
+
+	text-align: center;
+
+	border-radius: 20px;
+}
+
+.postes > p:nth-child(1) {
+	background-color: #6290C3;
+}
+
+.postes > p:nth-child(2) {
+	background-color: #C2E7DA;
+}
+
+.postes > p:nth-child(3) {
+	background-color:#F1FFE7;
+}

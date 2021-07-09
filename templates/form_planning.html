@@ -2,7 +2,7 @@
 
 {% block content %}
 	
-	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/form_planning.css') }}">
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/form_planning.css') }}" />
 
 	<form action="#" method="post">
 
@@ -33,25 +33,21 @@
 			</select>
 		</div>	
 
+
 		<div>
-			<label for="nom_jour">Nom du jour</label>
-			<select name="nom_jour" id="nom_jour">
-				<option value="Lundi">Lundi</option>
-				<option value="Mardi">Mardi</option>
-				<option value="Mercredi">Mercredi</option>
-				<option value="Jeudi">Jeudi</option>
-				<option value="Vendredi">Vendredi</option>
-			</select>
+			<label for="semaine">Semaine</label>
+			<input id="semaine" name="semaine" type="number" min="1" max="52" value="5">
 		</div>
+
 
 		<div>
 			<label for="jour">Jour</label>
-			<input id="jour" name="jour" type="number" max="31" min="1" value="21">
+			<input id="jour" name="jour" type="number" max="31" min="1" value="1">
 		</div>
 
 		<div>
 			<label for="mois">Mois</label>
-			<input id="mois" name="mois" type="number" max="12" min="1" value="6">
+			<input id="mois" name="mois" type="number" max="12" min="1" value="2">
 		</div>
 
 		<div>

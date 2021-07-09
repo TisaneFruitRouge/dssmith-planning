@@ -109,6 +109,20 @@ def old_get_competences(chemin_tab_excel):
 
 	return competences
 
+def get_liste_machines(chemin_tab_excel):
+	
+	matrice_de_polyvalence = load_workbook(chemin_tab_excel)
+	ws = matrice_de_polyvalence.active
+
+	l = []
+
+	for c in range(2, ws.max_column+1):
+
+		nom = ws.cell(row=1, column=c).value
+
+		l.append(nom)
+
+	return list(filter(lambda item: item!=None, l))
 
 def get_nom_machine(poste):
 	
@@ -138,12 +152,18 @@ def new_get_competences(chemin_tab_excel):
 			competences = list()
 			for c in range(1, ws.max_column): # on parcours toutes les colonnes
 				niveau_compétence = ws.cell(column=c, row=r).value
-				if (niveau_compétence in [1,2,3]): # si la case [c,r] à la valeur 1 alors l'emploé sait conduire ce poste
+				if (niveau_compétence in [1,2,3,4]): # si la case [c,r] à la valeur 1 alors l'emploé sait conduire ce poste
 					
 					poste = ws.cell(column=c, row=2).value.lower()
 					machine = get_nom_machine(poste)
 					poste = poste.replace(machine, "").strip()
-					if poste == "conducteur":
+
+					if (machine == "préparateur"): 
+						# le "conducteur" de préparateur est appelé "préparateur" et aurait donc eu
+						# un poste 2 alors qu'il devrait avoir un poste 0. C'est ce qu'on rectifie ici
+						poste = 0
+
+					elif poste == "conducteur":
 						poste = 0
 					elif poste == "sous conducteur":
 						poste = 1
@@ -155,7 +175,7 @@ def new_get_competences(chemin_tab_excel):
 
 			e = Employe(employe, equipe, competences) # on créer l'employe et on l'ajoute à la liste
 			liste_employes.append(e)
-
+	
 	return liste_employes
 
 
@@ -245,7 +265,4 @@ def getkeys(dic):
 
 if __name__ == '__main__':
 
-	employes = new_get_competences("Matrice de polyvalence.xlsx")
-
-	for e in employes: 
-		print(e)
+	employes = new_get_competences("Matrice de polyvalence1.xlsx")

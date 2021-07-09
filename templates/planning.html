@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/planning.css') }}" />
+
+	<div id="titres-periodes">
+		<h3 id="titre-matin" class="est-actif">Matin</h3>
+		<h3 id="titre-aprem" class="pas-actif">Après-midi</h3>	
+		<h3 id="titre-nuit"  class="pas-actif">Nuit</h3>
+	</div>
+
+	{% for periode in planning %}
+
+		<div id="planning-{{ loop.index }}">
+
+			<ul class="machine">
+
+				{% for machine in periode %}
+					<li>
+						<div id="nom-machine">{{ machine }}</div>
+						{% if machine == "Employés disponibles" %}
+							<div class="employes-disponibles">
+								{% for employe in periode[machine] %}
+							
+									<p>{{ employe }}</p>
+							
+								{% endfor %}
+							</div>	
+						{% else %}
+							<div class="postes">
+								{% for poste in periode[machine] %}
+
+									<p>{{ poste[1] }}</p>
+
+								{% endfor %}	
+							</div>
+						{% endif %}
+					</li>
+					
+
+				{% endfor %}
+			
+			</ul>
+
+		</div>
+
+	{% endfor %}
+
+	<button id="get-file">Télécharger le fichier</button>
+
+	
+	<script>
+
+		let planning = {{ json_data|safe }};
+
+		console.log(planning);
+
+		let titre_matin = document.getElementById('titre-matin');
+		let titre_aprem = document.getElementById('titre-aprem');
+		let titre_nuit  = document.getElementById('titre-nuit');
+
+		let planning_matin = document.getElementById('planning-1');
+		let planning_aprem = document.getElementById('planning-2');
+		let planning_nuit  = document.getElementById('planning-3');
+
+
+		planning_nuit.style.display = 'none';
+		planning_aprem.style.display = 'none';
+		planning_matin.style.display = 'default';
+
+		titre_matin.addEventListener('click', e=>{
+
+			titre_matin.className = 'est-actif';
+			titre_aprem.className = 'pas-actif';
+			titre_nuit.className = 'pas-actif';
+
+			planning_nuit.style.display = 'none';
+			planning_aprem.style.display = 'none';
+			planning_matin.style.display = 'inline';
+		})
+
+		titre_aprem.addEventListener('click', e=>{
+
+			titre_matin.className = 'pas-actif';
+			titre_aprem.className = 'est-actif';
+			titre_nuit.className = 'pas-actif';
+
+			planning_nuit.style.display = 'none';
+			planning_aprem.style.display = 'inline';
+			planning_matin.style.display = 'none';
+		})
+
+		titre_nuit.addEventListener('click', e=>{
+
+			titre_matin.className = 'pas-actif';
+			titre_aprem.className = 'pas-actif';
+			titre_nuit.className = 'est-actif';
+
+			planning_nuit.style.display = 'inline';
+			planning_aprem.style.display = 'none';
+			planning_matin.style.display = 'none';
+		})
+		
+
+		let button_telechargment = document.getElementById('get-file')
+
+		button_telechargment.addEventListener('click', e=>{
+
+			let init = {
+					method: 'POST',
+					body: JSON.stringify(planning),
+					contentType: 'application/json',
+					headers: {
+	      				'Accept': 'application/json',
+	      				'Content-Type': 'application/json'
+	    			},
+					mode: 'cors',
+					cache: 'default'
+				} 
+
+			fetch('http://localhost:5000/create-file', init)
+			.then(response => {
+				console.log(response)
+				})
+			.catch(err => console.log(err))
+
+		})
+
+	</script>
+
+{% endblock %}

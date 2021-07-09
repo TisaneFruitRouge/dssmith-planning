@@ -42,11 +42,11 @@ def conges(jour: int=jour_courant, mois: int=mois_courant, annee: int=annee_cour
 		cellule = ws.cell(column=2+jour, row=i).value
 
 		if (cellule != None):
-			liste_conges.append(nom)
+			liste_conges.append(nom.split("(")[0])
 
 	return liste_conges
 
 
 if __name__ == "__main__":
 	
-	print(conges())
+	print(conges(1,2,2021))
