@@ -2,7 +2,9 @@
 
 from flask import Flask, jsonify, render_template, request, send_file
 from flask_cors import CORS
+
 from planning import *
+from excel import get_excel_file
 
 import json
 
@@ -35,10 +37,10 @@ def planning():
 def create_excel_file():
 	
 
-	planning = dict(request.json)
-
+	planning = request.json
 	path = get_excel_file(planning)
 	
+
 	return send_file(path, as_attachment=True)
 
 

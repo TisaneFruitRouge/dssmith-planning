@@ -53,7 +53,7 @@ h3.pas-actif {
 
 	display:  flex;
 	flex-direction: row;
-	gap: 20px;
+	gap: 15px;
 }
 
 .employes-disponibles > p {
@@ -62,9 +62,9 @@ h3.pas-actif {
 
 	text-align: center;
 
-	border-radius: 20px;
-
 	background-color:  lightgrey;
+
+	border: solid 1px black;
 }
 
 
@@ -74,7 +74,7 @@ h3.pas-actif {
 
 	display:  flex;
 	flex-direction: row;
-	gap: 20px;
+	gap: 15px;
 }
 
 .postes > p {
@@ -83,7 +83,7 @@ h3.pas-actif {
 
 	text-align: center;
 
-	border-radius: 20px;
+	border: solid 1px black;
 }
 
 .postes > p:nth-child(1) {

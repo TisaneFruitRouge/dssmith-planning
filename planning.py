@@ -119,7 +119,7 @@ def trouver_remplaçant(employe, liste_employes_disponibles: list):
 
 	return remplaçant
 
-def planning_periode(employes: list, ouvertures: dict):
+def planning_periode(employes: list, ouvertures: dict, equipe: str):
 
 	"""
 		Cette fonction créer le planning en prenant en compte les ouvertures et la liste des employés disponibles
@@ -227,7 +227,7 @@ def planning_periode(employes: list, ouvertures: dict):
 
 	planning["Employés disponibles"] = [] # on créer la liste pour les employés non afféctés
 	
-	return planning
+	return (planning, equipe)
 
 
 def get_planning(jour: int, mois: int, annee: int, semaine: str ,matin: str, aprem: str, nuit: str):
@@ -262,24 +262,26 @@ def get_planning(jour: int, mois: int, annee: int, semaine: str ,matin: str, apr
 	ouvertures_jour = ouvertures[journee] # ouvertures pour la journée
 	planning = [] # planning (liste contenant le planning pour chaque période)
 
-	planning.append(planning_periode(employes_matin, ouvertures_jour[0]))
-	planning.append(planning_periode(employes_aprem, ouvertures_jour[1]))
-	planning.append(planning_periode(employes_nuit, ouvertures_jour[2]))
+	planning.append(planning_periode(employes_matin, ouvertures_jour[0], EQUIPE_MATIN))
+	planning.append(planning_periode(employes_aprem, ouvertures_jour[1], EQUIPE_APREM))
+	planning.append(planning_periode(employes_nuit, ouvertures_jour[2], EQUIPE_NUIT))
 
 
 	
 
+	# planning[i] == (planning_periode, equipe)
+
 	for e in employes_matin: 
 		if e.est_disponible:
-			planning[0]["Employés disponibles"].append(e.nom)
+			planning[0][0]["Employés disponibles"].append(e.nom)
 
 	for e in employes_aprem: 
 		if e.est_disponible:
-			planning[1]["Employés disponibles"].append(e.nom)
+			planning[1][0]["Employés disponibles"].append(e.nom)
 
 	for e in employes_nuit: 
 		if e.est_disponible:
-			planning[2]["Employés disponibles"].append(e.nom)
+			planning[2][0]["Employés disponibles"].append(e.nom)
 
 
 	return planning

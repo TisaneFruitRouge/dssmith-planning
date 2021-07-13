@@ -14,14 +14,16 @@
 
 		<div id="planning-{{ loop.index }}">
 
+			<p>EQUIPE : {{ periode[1] }}</p>
+
 			<ul class="machine">
 
-				{% for machine in periode %}
+				{% for machine in periode[0] %}
 					<li>
 						<div id="nom-machine">{{ machine }}</div>
 						{% if machine == "Employés disponibles" %}
 							<div class="employes-disponibles">
-								{% for employe in periode[machine] %}
+								{% for employe in periode[0][machine] %}
 							
 									<p>{{ employe }}</p>
 							
@@ -29,7 +31,7 @@
 							</div>	
 						{% else %}
 							<div class="postes">
-								{% for poste in periode[machine] %}
+								{% for poste in periode[0][machine] %}
 
 									<p>{{ poste[1] }}</p>
 
@@ -49,7 +51,8 @@
 
 	<button id="get-file">Télécharger le fichier</button>
 
-	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+	<!-- Pour la fonction download() -->
 	<script>
 
 		let planning = {{ json_data|safe }};
@@ -120,12 +123,26 @@
 				} 
 
 			fetch('http://localhost:5000/create-file', init)
-			.then(response => {
-				console.log(response)
-				})
-			.catch(err => console.log(err))
+			.then(res=>{
+            	return res.blob();
+        	})
+        	.then(blob=>{
+            	download(blob, "Planning")
+        	})
+        	.catch(err=>console.log(err));
+			})
 
-		})
+
+		postes = document.querySelectorAll(".postes > p")
+		
+		postes.forEach( poste => {
+
+			if (poste.innerHTML == "Poste non affecté")
+			{
+				poste.style.backgroundColor = "#FF0000"
+			}
+
+		} )
 
 	</script>
 
