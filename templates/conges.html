@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/conges.css') }}" />
+
+	<div id="wrapper">
+
+		{% for conge in conges %}
+
+			<div class="conges">
+				<p>{{ conge[0] }}</p>
+				<p>{{ conge[1] }}</p>
+			</div>
+
+		{% endfor %}
+	</div>
+
+{% endblock %}

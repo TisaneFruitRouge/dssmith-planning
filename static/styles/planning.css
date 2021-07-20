@@ -2,6 +2,29 @@ html {
 	font-family: "Gill Sans", sans-serif;
 }
 
+#retour{
+
+	position: absolute;
+
+	top: 30px;
+	left: 30px;
+
+	padding: 2px 4px;
+
+	padding-top: 5px;
+
+	transition: 0.4s;
+}
+
+#retour:hover {
+	background-color: lightgray;
+}
+
+
+#wrapper {
+	margin-left: 30px;
+}
+
 #titres-periodes {
 
 	display: flex;
@@ -9,10 +32,72 @@ html {
 
 }
 
-#titres-periodes > h3{
+#titres-periodes > h3 {
 	padding:  10px;
 	border: solid 1px black;
 }
+
+
+.data {
+	display: flex;
+	flex-direction: row;
+
+	width: 120px;
+	height: 40px;
+}
+
+.data > div{
+
+	display:  flex;
+
+	width: 40px;
+	height: 40px;
+
+	border: solid 1px black;
+
+	align-items: center;
+	justify-content: center;
+}
+
+.data > div > p:last-child {
+	position:  absolute;
+
+	background:  #F6F6F6;
+	
+	border: solid 1px black;
+
+	max-width: 500px;
+
+	opacity: 0;
+
+	transform: translate(45%, 150%);
+}
+
+.data > div:hover > p:last-child {
+	opacity: 1;
+}
+
+.data > div:nth-child(1){
+	background-color: #D92027;
+}
+
+.data > div:nth-child(2){
+	background-color: #FF9234;
+}
+
+.data > div:nth-child(3){
+	background-color: #FFCD3C;
+}
+
+.equipe {
+	font-size: 20px;
+}
+
+.equipe::before {
+	content: "Equipe: ";
+	color:  black;
+}
+
 
 h3.est-actif {
 	color: white;

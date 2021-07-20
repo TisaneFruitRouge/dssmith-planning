@@ -93,7 +93,7 @@ def remplir_poste(classement_ouvrier: dict, machine: str, poste: int):
 	employe[0].est_disponible = False
 	employe[0].poste_occupe = (machine, poste)
 
-	return (poste, employe[0].nom)
+	return (poste, employe[0])
 
 def trouver_remplaçant(employe, liste_employes_disponibles: list):
 
@@ -150,7 +150,7 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 				if employe[1] == 4:
 					employe[0].est_disponible = False
 					employe[0].poste_occupe = (machine, poste)
-					planning[machine][poste] = (poste, employe[0].nom)
+					planning[machine][poste] = (poste, employe[0])
 
 	for poste in range(3):
 		for machine in getkeys(ouvertures):
@@ -199,17 +199,17 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 
 						remplaçant.poste_occupe = (ancienne_machine, ancien_poste)
 						remplaçant.est_disponible = False
-						planning[ancienne_machine][ancien_poste] = (ancien_poste, remplaçant.nom)
+						planning[ancienne_machine][ancien_poste] = (ancien_poste, remplaçant)
 
 
 						e[0].poste_occupe = (machine, poste)	
-						planning[machine][poste] = (poste, e[0].nom)
+						planning[machine][poste] = (poste, e[0])
 
 
 
-	for machine in get_liste_machines("Matrice de polyvalence1.xlsx"):
+	for machine in get_liste_machines("Matrice de polyvalence.xlsx"):
 
-		# pour chaque machine, les postes vides sont affectés à des intérims
+		# pour chaque machine, les postes vides sont affectés à des intérims ou non pourvus
 
 		keys = getkeys(planning)
 
@@ -224,6 +224,8 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 		for (index, poste) in enumerate(planning[nom_machine]):
 			if poste == None:
 				planning[nom_machine][index] = (None, "Poste non affecté")
+			else :
+				planning[nom_machine][index] = (index, poste[1].nom)
 
 	planning["Employés disponibles"] = [] # on créer la liste pour les employés non afféctés
 	
@@ -232,7 +234,7 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 
 def get_planning(jour: int, mois: int, annee: int, semaine: str ,matin: str, aprem: str, nuit: str):
 
-	employes     = new_get_competences("Matrice de polyvalence1.xlsx") # on créer la liste des employés
+	employes     = get_competences("Matrice de polyvalence.xlsx") # on créer la liste des employés
 	liste_conges = conges(jour, mois, annee) # on créer la liste des congés
 	ouvertures   = get_ouvertures(chemin_ouverture, semaine, annee) # on créer la liste des onvertures
 
@@ -250,8 +252,22 @@ def get_planning(jour: int, mois: int, annee: int, semaine: str ,matin: str, apr
 
 
 	for employe in employes:
-		if (employe.nom in liste_conges):
+		if employe_dans_liste_conge(employe, liste_conges):
 			continue
+		elif (employe.regime == "P"):
+			if int(semaine)%2 == 0:
+				employes_matin.append(employe)
+				continue
+			else :
+				employes_aprem.append(employe)
+				continue
+		elif (employe.regime == "I"):
+			if int(semaine)%2 == 1:
+				employes_matin.append(employe)
+				continue
+			else :
+				employes_aprem.append(employe)
+				continue
 		elif (employe.equipe==EQUIPE_MATIN):
 			employes_matin.append(employe)
 		elif (employe.equipe==EQUIPE_APREM):

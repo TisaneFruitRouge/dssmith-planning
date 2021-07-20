@@ -4,52 +4,71 @@
 
 	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/planning.css') }}" />
 
-	<div id="titres-periodes">
-		<h3 id="titre-matin" class="est-actif">Matin</h3>
-		<h3 id="titre-aprem" class="pas-actif">Après-midi</h3>	
-		<h3 id="titre-nuit"  class="pas-actif">Nuit</h3>
-	</div>
-
-	{% for periode in planning %}
-
-		<div id="planning-{{ loop.index }}">
-
-			<p>EQUIPE : {{ periode[1] }}</p>
-
-			<ul class="machine">
-
-				{% for machine in periode[0] %}
-					<li>
-						<div id="nom-machine">{{ machine }}</div>
-						{% if machine == "Employés disponibles" %}
-							<div class="employes-disponibles">
-								{% for employe in periode[0][machine] %}
-							
-									<p>{{ employe }}</p>
-							
-								{% endfor %}
-							</div>	
-						{% else %}
-							<div class="postes">
-								{% for poste in periode[0][machine] %}
-
-									<p>{{ poste[1] }}</p>
-
-								{% endfor %}	
-							</div>
-						{% endif %}
-					</li>
-					
-
-				{% endfor %}
-			
-			</ul>
-
+	<div id="wrapper">
+		<div id="titres-periodes">
+			<h3 id="titre-matin" class="est-actif">Matin</h3>
+			<h3 id="titre-aprem" class="pas-actif">Après-midi</h3>	
+			<h3 id="titre-nuit"  class="pas-actif">Nuit</h3>
 		</div>
 
-	{% endfor %}
+	
+		{% for periode in planning %}
 
-	<button id="get-file">Télécharger le fichier</button>
+			<div id="planning-{{ loop.index }}">
+
+				<div class="data">
+					<div>
+						<p>{{ data[loop.index-1][0]  }}</p>
+						<p>Nombre de postes de conducteurs non pourvus</p>
+					</div>
+					<div>
+						<p>{{ data[loop.index-1][1] }}</p>
+						<p>Nombre de postes de sous-conducteurs non pourvus</p>
+					</div>
+					<div>
+						<p>{{ data[loop.index-1][2] }}</p>
+						<p>Nombre d'autre postes non pourvus</p>
+					</div>
+				</div>
+
+				<p class="equipe">{{ periode[1] }}</p>
+
+				<ul class="machine">
+
+					{% for machine in periode[0] %}
+						<li>
+							<div id="nom-machine">{{ machine }}</div>
+							{% if machine == "Employés disponibles" %}
+								<div class="employes-disponibles">
+									{% for employe in periode[0][machine] %}
+								
+										<p>{{ employe }}</p>
+								
+									{% endfor %}
+								</div>	
+							{% else %}
+								<div class="postes">
+									{% for poste in periode[0][machine] %}
+
+										<p>{{ poste[1] }}</p>
+
+									{% endfor %}	
+								</div>
+							{% endif %}
+						</li>
+						
+
+					{% endfor %}
+				
+				</ul>
+
+			</div>
+
+		{% endfor %}
+
+		<button id="get-file">Télécharger le fichier</button>
+	</div>
+
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
 	<!-- Pour la fonction download() -->
@@ -143,6 +162,24 @@
 			}
 
 		} )
+
+
+		equipes = document.querySelectorAll(".equipe")
+
+		equipes.forEach(equipe=>{
+			if (equipe.innerHTML=="ROUGE")
+			{
+				equipe.style.color = "red"
+			}
+			else if (equipe.innerHTML=="VERTE")
+			{
+				equipe.style.color = "green"
+			}
+			else 
+			{
+				equipe.style.color = "blue"
+			}
+		})
 
 	</script>
 

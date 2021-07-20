@@ -1,0 +1,17 @@
+
+#wrapper {
+	position: absolute;
+
+	left: 50%;
+	transform: translateX(-50%);
+
+	font-size: 1.5em;
+}
+
+.conges {
+	display: flex;
+	flex-direction: row;
+}
+.conges p {
+	border:  solid 1px black;
+}

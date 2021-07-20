@@ -12,6 +12,14 @@ annee_courante = date_courante.year
 mois_courant = date_courante.month
 jour_courant = date_courante.day
 
+def employe_dans_liste_conge(employe, liste):
+
+	for nom in liste:
+		if employe.nom == nom[0]:
+			return True
+
+	return False
+
 
 
 def conges(jour: int=jour_courant, mois: int=mois_courant, annee: int=annee_courante):
@@ -42,7 +50,7 @@ def conges(jour: int=jour_courant, mois: int=mois_courant, annee: int=annee_cour
 		cellule = ws.cell(column=2+jour, row=i).value
 
 		if (cellule != None):
-			liste_conges.append(nom.split("(")[0])
+			liste_conges.append((nom.split("(")[0], cellule))
 
 	return liste_conges
 

@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+	
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/forms/form_conges.css') }}" />
+
+	<form action="#" method="post">
+
+		<div>
+				<label for="jour">Jour</label>
+				<input id="jour" name="jour" type="number" max="31" min="1" placeholder="Jour">
+			</div>
+
+			<div>
+				<label for="mois">Mois</label>
+				<input id="mois" name="mois" type="number" max="12" min="1" placeholder="Mois">
+			</div>
+
+			<div>
+				<label for="annee">Année</label>
+				<input id="annee" name="annee" type="number" max="9999" min="1" placeholder="Année">
+		</div>
+
+		<button>Afficher la liste des congés</button>
+
+	</form>
+
+{% endblock %}

@@ -22,7 +22,7 @@ def get_excel_file(planning: list):
 
 		current_row = 4
 
-		for machine in get_liste_machines("Matrice de polyvalence1.xlsx"):
+		for machine in get_liste_machines("Matrice de polyvalence.xlsx"):
 
 			nombre_de_postes = int(machine[1])
 			nom_machine = machine[4:].lower()
