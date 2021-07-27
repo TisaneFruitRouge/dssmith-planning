@@ -9,6 +9,7 @@ from conges import conges as get_liste_conges
 
 import json
 
+
 app = Flask(__name__)
 
 CORS(app)
@@ -27,11 +28,19 @@ def planning():
 
 		semaine = request.form["semaine"]
 
+		try:
+			changement_equipe = int(request.form["changement-equipe"])
+		except :
+			changement_equipe = 0
+
+
 		jour  = int(request.form["jour"])
 		mois  = int(request.form["mois"])
 		annee = int(request.form["annee"])
 
-		planning = get_planning(jour,mois,annee, semaine, equipe_matin, equipe_aprem, equipe_nuit)
+		planning = get_planning(jour,mois,annee, semaine, 
+								equipe_matin, equipe_aprem, equipe_nuit, 
+								changement_equipe)
 
 		data = []
 
@@ -46,10 +55,12 @@ def planning():
 						postes_non_pourvus[index] += 1
 			data.append(postes_non_pourvus)
 
+			
+
 
 		return render_template("planning.html", 
 								planning=planning, 
-								json_data=json.dumps(planning),
+								json_data=json.dumps([planning, [jour, mois, annee, semaine]]),
 								data=data
 								)
 
@@ -78,9 +89,15 @@ def conges():
 @app.route('/create-file', methods=['POST'])
 def create_excel_file():
 	
+	dates  = request.json["dates"]
 
-	planning = request.json
-	path = get_excel_file(planning)
+
+
+	liste_conges = get_liste_conges(dates[0],dates[1],dates[2])
+	
+	planning = request.json["planning"]
+
+	path = get_excel_file(planning, liste_conges, dates)
 	
 
 	return send_file(path, as_attachment=True)

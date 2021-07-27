@@ -70,6 +70,22 @@ form > div {
 	width:  100%;
 }
 
+
+#wrapper-changement-equipe {
+
+	display: inline;
+
+	font-size:  0.8em;
+
+}
+
+
+#wrapper-changement-equipe input{
+
+	transform: translateY(-2px);
+
+}
+
 #dates {
 	display: flex;
 	flex-direction: column;

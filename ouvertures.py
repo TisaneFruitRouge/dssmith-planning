@@ -3,7 +3,7 @@
 from openpyxl import *
 import json
 
-debut_lundi    = ["Lundi","F"]
+debut_lundi    = ["Lundi","F"] # colonne du tableau excel sur laquelle débute chaque jour
 debut_mardi    = ["Mardi","I"]
 debut_mercredi = ["Mercredi","L"]
 debut_jeudi    = ["Jeudi","O"]

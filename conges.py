@@ -6,6 +6,7 @@ from calendar import monthrange
 from openpyxl import *
 import json
 
+
 date_courante = date.today()
 
 annee_courante = date_courante.year
@@ -41,16 +42,19 @@ def conges(jour: int=jour_courant, mois: int=mois_courant, annee: int=annee_cour
 	liste_conges = []
 
 	for i in range(8, nb_ligne): #on parcours les lignes (employes)
-		nom = ws.cell(column=2, row=i).value
+		cellule_nom = ws.cell(column=2, row=i)
+		nom = cellule_nom.value
 		
 		if nom == None: 
 			continue
 		
 
+		color=cellule_nom.fill.start_color.index
+
 		cellule = ws.cell(column=2+jour, row=i).value
 
 		if (cellule != None):
-			liste_conges.append((nom.split("(")[0], cellule))
+			liste_conges.append((nom.split("(")[0], cellule, color))
 
 	return liste_conges
 

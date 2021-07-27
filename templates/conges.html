@@ -16,4 +16,24 @@
 		{% endfor %}
 	</div>
 
+
+	<script type="text/javascript">
+		
+
+		let liste_type_conge = document.querySelectorAll(".conges > p:last-child")
+
+		liste_type_conge.forEach(conge=>{
+			if (conge.innerHTML == "M")
+				conge.style.backgroundColor = "red";
+			else if (conge.innerHTML == "C")
+				conge.style.backgroundColor = "green";
+			else if (conge.innerHTML == "R")
+				conge.style.backgroundColor = "yellow";
+			else if (conge.innerHTML == "?")
+				conge.style.backgroundColor = "#CF9FFF";
+		})
+
+
+	</script>
+
 {% endblock %}

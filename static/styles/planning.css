@@ -159,7 +159,16 @@ h3.pas-actif {
 
 	display:  flex;
 	flex-direction: row;
+
+	align-items:center;
+
 	gap: 15px;
+}
+
+.postes > img {
+	width: 30px; 
+	height: 30px;
+	transform:  translateX(-5px);
 }
 
 .postes > p {
@@ -181,4 +190,11 @@ h3.pas-actif {
 
 .postes > p:nth-child(3) {
 	background-color:#F1FFE7;
+}
+
+.aucun-employe-disponible {
+	font-style: italic;
+	background-color: #f3f3f3;
+
+	padding-left: 15px;
 }

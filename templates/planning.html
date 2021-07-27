@@ -39,18 +39,32 @@
 						<li>
 							<div id="nom-machine">{{ machine }}</div>
 							{% if machine == "Employés disponibles" %}
-								<div class="employes-disponibles">
-									{% for employe in periode[0][machine] %}
-								
-										<p>{{ employe }}</p>
-								
-									{% endfor %}
-								</div>	
+								{% if periode[0][machine]|length > 0 %}
+									<div class="employes-disponibles">
+										{% for employe in periode[0][machine] %}
+									
+											<p>{{ employe }}</p>
+									
+										{% endfor %}
+									</div>	
+								{% else %}
+
+									<p class="aucun-employe-disponible">Aucun employé disponible</p>
+
+								{% endif %}
 							{% else %}
 								<div class="postes">
 									{% for poste in periode[0][machine] %}
 
-										<p>{{ poste[1] }}</p>
+										{% if poste[2] == 2 %}
+											<p style="background-color: yellow;">{{ poste[1] }}</p>
+										{% else %}
+											<p>{{ poste[1] }}</p>
+										{% endif %}
+											
+										{% if poste[2] == 1 %}
+											<img src="{{ url_for('static',filename='images/icone_changement.png') }}" alt="Image changement équipe" />
+										{% endif %}
 
 									{% endfor %}	
 								</div>
@@ -74,9 +88,10 @@
 	<!-- Pour la fonction download() -->
 	<script>
 
-		let planning = {{ json_data|safe }};
+		let json_data = {{ json_data|safe }};
 
-		console.log(planning);
+		let planning = json_data[0]
+		let dates = json_data[1]
 
 		let titre_matin = document.getElementById('titre-matin');
 		let titre_aprem = document.getElementById('titre-aprem');
@@ -131,7 +146,10 @@
 
 			let init = {
 					method: 'POST',
-					body: JSON.stringify(planning),
+					body: JSON.stringify({
+						"planning": planning,
+						"dates": dates,
+					}),
 					contentType: 'application/json',
 					headers: {
 	      				'Accept': 'application/json',
@@ -159,6 +177,10 @@
 			if (poste.innerHTML == "Poste non affecté")
 			{
 				poste.style.backgroundColor = "#FF0000"
+			}
+			if (poste.innerHTML == "Intérimaire")
+			{
+				poste.style.backgroundColor = "yellow";
 			}
 
 		} )
