@@ -63,5 +63,5 @@ def get_ouvertures(chemin_tab_excel, semaine, annee):
 
 if __name__ == "__main__":
 
-	ouv = get_ouvertures("../DOCS STAGE/nvx/ouvertures.xlsx", 1, 2021)
+	ouv = get_ouvertures("../../DOCS STAGE/nvx/ouvertures.xlsx", 1, 2021)
 	print(ouv)

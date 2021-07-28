@@ -8,7 +8,7 @@ from ouvertures import *
 import json
 import datetime
 
-chemin_ouverture = "../DOCS STAGE/nvx/ouvertures.xlsx"
+chemin_ouverture = "../../DOCS STAGE/nvx/ouvertures.xlsx"
 chemin_matrice_de_polyvalence = "Matrice de polyvalence.xlsx"
 
 def get_liste_employes_machine(employes, machine):
@@ -122,6 +122,18 @@ def trouver_remplaçant(employe, liste_employes_disponibles: list):
 
 	return remplaçant
 
+def get_regime(employe):
+	'''
+		Cette fonction renvoie le regime de l'employé à mettre dans le planning 
+	'''
+
+	if employe.regime == "P" or employe.regime == "I":
+		return 1
+	elif employe.est_interimaire:
+		return 2
+	else: 
+		return 0 
+
 def remplacer_employes_par_nom(planning):
 	'''
 		Cette fonction parcours le planning et remplace chaque objet de type <Employe> par
@@ -145,11 +157,12 @@ def remplacer_employes_par_nom(planning):
 		for (index, poste) in enumerate(planning[nom_machine]):
 			if poste == None:
 				if index == 2 and not planning[nom_machine][1][0] == None and not planning[nom_machine][0][0] == None:
-					planning[nom_machine][2] = (2, "Intérimaire", 0)
+					planning[nom_machine][2] = (2, "Intérimaire", 0, 0)
 				else :
-					planning[nom_machine][index] = (None, "Poste non affecté", 0)
+					planning[nom_machine][index] = (None, "Poste non affecté", 0, 0)
 			else :
-				planning[nom_machine][index] = (index, poste[1].nom, poste[2])
+				regime = get_regime(poste[1])
+				planning[nom_machine][index] = (index, poste[1].nom, poste[2], regime)
 
 	return planning
 
@@ -164,7 +177,7 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 		
 
 		Le planning est un dictionnaire où chaque clef est associé à une liste comportant de 1 à 3 éléments
-		chaqun de ces éléments est un tuple de la forme suivante: (poste, employé, info)
+		chaqun de ces éléments est un tuple de la forme suivante: (poste, employé, info, regime)
 
 		avec :
 			poste: en entier compris entre 0 et 2 inclus
@@ -172,7 +185,7 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 			info: un entier compris entre 0 et 2 avec :
 				- 0: pas d'info particulière
 				- 1: il y a eu un changement d'équipe
-				- 2: l'employé est un intérimaire  
+			regime: 0 si normal, 1 si 2x8, 2 si intérim
 
 	"""
 
@@ -197,7 +210,7 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 					employe[0].poste_occupe = (machine, poste)
 					planning[machine][poste] = (poste,
 												employe[0],
-												2 if employe[0].est_interimaire else 0)
+												0)
 
 	for poste in range(3): # on essaye de remplir chaque poste grâce au classement des ouvriers
 		for machine in getkeys(ouvertures):
@@ -297,6 +310,8 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 					e.est_disponible = False
 					e.poste = (machine, 0)
 
+					liste_derniers_dispo.remove(e)
+
 					break
 				else: 
 					continue
@@ -309,6 +324,8 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 						e.est_disponible = False
 						e.poste_occupe = (machine, 1)
 
+						liste_derniers_dispo.remove(e)
+
 						break
 
 				if planning[machine][2] == None:
@@ -319,8 +336,13 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 						e.est_disponible = False
 						e.poste_occupe = (machine, 2)
 
+						liste_derniers_dispo.remove(e)
+
 						break
 
+	for e in liste_derniers_dispo:
+		e.poste_occupe = ()
+		e.est_disponible = True
 
 	planning["Employés disponibles"] = [] # on créer la liste pour les employés non afféctés
 	
@@ -399,8 +421,8 @@ def get_planning(jour: int, mois: int, annee: int, semaine: str ,matin: str, apr
 						if e.tient_poste(machine, poste):
 							e.est_disponible = False
 							liste_employes_disponibles.remove(e)
-
-							periode[0][machine][poste] = (poste, e, 1)
+							
+							periode[0][machine][poste] = (poste, e, 1, get_regime(e))
 
 
 	for e in employes_matin: 

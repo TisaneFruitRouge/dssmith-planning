@@ -9,6 +9,8 @@
 			<h3 id="titre-matin" class="est-actif">Matin</h3>
 			<h3 id="titre-aprem" class="pas-actif">Après-midi</h3>	
 			<h3 id="titre-nuit"  class="pas-actif">Nuit</h3>
+
+			<button id="get-file">Télécharger le fichier</button>
 		</div>
 
 	
@@ -56,7 +58,9 @@
 								<div class="postes">
 									{% for poste in periode[0][machine] %}
 
-										{% if poste[2] == 2 %}
+										{% if poste[3] == 1 %}
+											<p style="background-color: orange;">{{ poste[1] }}</p>
+										{% elif poste[3] == 2 %}
 											<p style="background-color: yellow;">{{ poste[1] }}</p>
 										{% else %}
 											<p>{{ poste[1] }}</p>
@@ -80,7 +84,7 @@
 
 		{% endfor %}
 
-		<button id="get-file">Télécharger le fichier</button>
+		
 	</div>
 
 

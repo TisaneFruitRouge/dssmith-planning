@@ -180,15 +180,15 @@ h3.pas-actif {
 	border: solid 1px black;
 }
 
-.postes > p:nth-child(1) {
+.postes p:nth-child(1) {
 	background-color: #6290C3;
 }
 
-.postes > p:nth-child(2) {
+.postes p:nth-child(2) {
 	background-color: #C2E7DA;
 }
 
-.postes > p:nth-child(3) {
+.postes p:nth-child(3) {
 	background-color:#F1FFE7;
 }
 
@@ -197,4 +197,7 @@ h3.pas-actif {
 	background-color: #f3f3f3;
 
 	padding-left: 15px;
+}
+
+button {
 }

@@ -36,6 +36,7 @@ def get_color(nom, liste_employes):
 					return "FF99FF99"
 				elif e.equipe == "BLEUE":
 					return "FF00FFFF"
+	return "FFFFFFFF"
 
 
 
@@ -131,8 +132,8 @@ def get_excel_file(planning: list, conges: list, dates: list):
 
 		cellule_raison.border = border
 		cellule_nom.border    = border
-
-		cellule_nom.fill = PatternFill(fill_type='solid', start_color=e[2], end_color=e[2])
+		color = get_color(e[0], liste_employes)
+		cellule_nom.fill = PatternFill(fill_type='solid', start_color=color, end_color=color)
 
 		row += 2
 
@@ -166,6 +167,6 @@ def get_excel_file(planning: list, conges: list, dates: list):
 		adjusted_width = (max_length + 2) * 1.2
 		ws.column_dimensions[column].width = adjusted_width
 
-	dest_filename = "/home/vincent/Travail/STAGE/programme/planning.xlsx"
+	dest_filename = "/home/vincent/Travail/STAGE/Planning/Planning/planning.xlsx"
 	wb.save(filename = dest_filename)
 	return dest_filename;

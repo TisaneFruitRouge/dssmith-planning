@@ -31,7 +31,7 @@ def conges(jour: int=jour_courant, mois: int=mois_courant, annee: int=annee_cour
 	'''
 
 	#conges = load_workbook(f"../DOCS STAGE/nvx/{annee}.xlsx")
-	conges = load_workbook(f"../DOCS STAGE/nvx/Congés 06 21 au 09 21.xlsx")
+	conges = load_workbook(f"../../DOCS STAGE/nvx/Congés 06 21 au 09 21.xlsx")
 	
 	ws = conges.worksheets[mois-1]
 	
@@ -56,7 +56,7 @@ def conges(jour: int=jour_courant, mois: int=mois_courant, annee: int=annee_cour
 		cellule = ws.cell(column=2+jour, row=i).value
 
 		if (cellule != None):
-			liste_conges.append((nom.split("(")[0], cellule, color))
+			liste_conges.append((nom.split("(")[0], cellule))
 
 	return liste_conges
 
