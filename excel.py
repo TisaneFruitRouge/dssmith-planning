@@ -8,12 +8,19 @@ from competences import *
 tab_jour = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"]
 
 def get_periode(index):
+	'''
+		Considérant un index [0,1,2], cette fonction renvoie la période correspondante
+	'''
+
 	if index==0: return "Matin"
 	elif index==1: return "Après-midi"
 	else: return "Nuit" 
 
 def get_color(nom, liste_employes):
-
+	'''
+		Considérant le nom d'un employé, cette fonction parcours la liste de tout les employés
+		et renvoie la couleur associée à l'employé fourni en entrée
+	'''
 	for e in liste_employes:
 
 		if e.nom == nom:
@@ -33,7 +40,9 @@ def get_color(nom, liste_employes):
 
 
 def get_excel_file(planning: list, conges: list, dates: list):
-	
+	'''
+		Cette fonction génère le fichier excel du planning
+	'''
 
 	liste_employes = get_competences("Matrice de polyvalence.xlsx")
 
@@ -58,7 +67,7 @@ def get_excel_file(planning: list, conges: list, dates: list):
 
 	ws.cell(row=1, column=1, value=f"Semaine {semaine}")
 	ws.cell(row=2, column=1, value=jour)
-
+	# on parcours chaque période
 	for (index, _periode) in enumerate(planning): #_periode = (periode, equipe)
 		periode = _periode[0]
 		equipe  = _periode[1]
@@ -68,6 +77,7 @@ def get_excel_file(planning: list, conges: list, dates: list):
 
 		current_row = 4
 
+		# on parcours chaque machine
 		for machine in get_liste_machines("Matrice de polyvalence.xlsx"):
 
 			nombre_de_postes = int(machine[1])
@@ -76,6 +86,7 @@ def get_excel_file(planning: list, conges: list, dates: list):
 			cell = ws.cell(column=2, row=current_row, value=nom_machine.upper())
 			cell.border = border
 
+			# si la machine ne tourne pas sur cette période, on saute cette machine
 			if nom_machine not in periode:
 				current_row+=4 # 3 postes + 1 de saut
 				continue
@@ -112,6 +123,7 @@ def get_excel_file(planning: list, conges: list, dates: list):
 
 	row = 4
 
+	# on affiche les congés
 	for (index, e) in enumerate(conges):
 
 		cellule_nom    = ws.cell(row=row, column=7, value=e[0])
@@ -133,6 +145,7 @@ def get_excel_file(planning: list, conges: list, dates: list):
 								 planning[1][0]["Employés disponibles"]+ \
 								 planning[2][0]["Employés disponibles"]
 
+	# on affiche les employés disponibles							 
 	for e in liste_employes_disponibles:
 		row+=2
 		cellule=ws.cell(row=row, column=7, value=e)

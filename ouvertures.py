@@ -14,6 +14,10 @@ liste_machine_a_ne_pas_considerer = ["contremaitre","manutention","préparateur"
 liste_jours = [debut_lundi, debut_mardi, debut_mercredi, debut_jeudi, debut_vendredi]
 
 def get_ouvertures(chemin_tab_excel, semaine, annee):
+	'''
+		Cette fonction renvoie un dictionnaire des ouverture pour un semaine et année données en
+		entrée 
+	'''
 	ouvertures = load_workbook(chemin_tab_excel)
 
 	if (int(semaine) < 10):

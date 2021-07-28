@@ -14,7 +14,9 @@ mois_courant = date_courante.month
 jour_courant = date_courante.day
 
 def employe_dans_liste_conge(employe, liste):
-
+	'''
+		Cette fonction renvoie Vrai si l'employe est dans la liste fournie en entrée,  faux sinon
+	'''
 	for nom in liste:
 		if employe.nom == nom[0]:
 			return True
@@ -24,17 +26,17 @@ def employe_dans_liste_conge(employe, liste):
 
 
 def conges(jour: int=jour_courant, mois: int=mois_courant, annee: int=annee_courante):
-	
-	# à terme, ouvrir la bonne page excle en fonciton de la date donnée en argument
+	'''
+		Cette fonction renvoie une liste des employés en congé, avec la raison de leur absence
+	'''
 
-	conges = load_workbook(f"../DOCS STAGE/nvx/{annee}.xlsx")
+	#conges = load_workbook(f"../DOCS STAGE/nvx/{annee}.xlsx")
+	conges = load_workbook(f"../DOCS STAGE/nvx/Congés 06 21 au 09 21.xlsx")
 	
-	# ws = conges.worksheets[mois-1]
-	ws = conges.worksheets[0]
+	ws = conges.worksheets[mois-1]
 	
 	dic_conges = dict()
 
-	# nb_jours = monthrange(annee, mois)
 	nb_jours = monthrange(2021, 2)[1]
 
 	nb_ligne = ws.max_row

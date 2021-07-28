@@ -80,7 +80,7 @@ def get_classement_ouvriers(employes: list, ouvertures: dict):
 
 def remplir_poste(classement_ouvrier: dict, machine: str, poste: int):
 	'''
-		Cette fonction prend en entrée le classeement des ouvriers, une machine et un poste et
+		Cette fonction prend en entrée le classement des ouvriers, une machine et un poste et
 		assigne à ce poste sur la machine un ouvrier en fonction du classement
 	'''
 	# 0 = conducteur
@@ -123,7 +123,11 @@ def trouver_remplaçant(employe, liste_employes_disponibles: list):
 	return remplaçant
 
 def remplacer_employes_par_nom(planning):
-
+	'''
+		Cette fonction parcours le planning et remplace chaque objet de type <Employe> par
+		son nom et se permet de rajouter des intérimaire là où il pourrait y en avoir besoin
+		et de signaler les postes non affectés
+	'''
 	for machine in get_liste_machines(chemin_matrice_de_polyvalence):
 
 		# pour chaque machine, les postes vides sont affectés à des intérims ou non pourvus
@@ -195,7 +199,7 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 												employe[0],
 												2 if employe[0].est_interimaire else 0)
 
-	for poste in range(3):
+	for poste in range(3): # on essaye de remplir chaque poste grâce au classement des ouvriers
 		for machine in getkeys(ouvertures):
 			if (planning[machine][poste] == None):
 				try: 
@@ -253,6 +257,8 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 						planning[machine][poste] = (poste, e[0], 0)
 
 	for poste in range(2):
+		# on essaie de remplir les postes de conducteur snon pourvus grâce aux postes
+		# sur la même machine ayant déjà été pourvus
 		for machine in getkeys(ouvertures):
 			if planning[machine][poste] == None:
 
@@ -263,6 +269,57 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 					planning[machine][poste] = (poste, employe, 0)
 
 					planning[machine][poste+1] = None
+
+
+	liste_derniers_dispo = []			
+	# on liste les employés sur une machine où il n'y a pas de conducteurs
+	for machine in getkeys(ouvertures):
+
+		if planning[machine][0] == None:
+
+			for poste in range(1,3):
+				e = planning[machine][poste]	
+				if not e == None:	
+					e[1].est_disponible = False
+					planning[machine][poste] = None
+					liste_derniers_dispo.append(e[1])
+
+
+	# on essaie de placer ces ouvriers sur une autre machine
+	for e in liste_derniers_dispo:
+		for machine in getkeys(ouvertures):
+			if planning[machine][0] == None:
+				if e.tient_poste(machine, 0):
+
+					planning[e.poste_occupe[0]][e.poste_occupe[1]] = None
+					
+					planning[machine][0] = (0, e, 0)
+					e.est_disponible = False
+					e.poste = (machine, 0)
+
+					break
+				else: 
+					continue
+			else :
+				if planning[machine][1] == None:
+					if e.tient_poste(machine, 1):
+						planning[e.poste_occupe[0]][e.poste_occupe[1]] = None
+
+						planning[machine][1] = (1, e, 0)
+						e.est_disponible = False
+						e.poste_occupe = (machine, 1)
+
+						break
+
+				if planning[machine][2] == None:
+					if e.tient_poste(machine, 2):
+						planning[e.poste_occupe[0]][e.poste_occupe[1]] = None
+
+						planning[machine][2] = (2, e, 0)
+						e.est_disponible = False
+						e.poste_occupe = (machine, 2)
+
+						break
 
 
 	planning["Employés disponibles"] = [] # on créer la liste pour les employés non afféctés
@@ -320,12 +377,14 @@ def get_planning(jour: int, mois: int, annee: int, semaine: str ,matin: str, apr
 	planning.append(planning_periode(employes_aprem, ouvertures_jour[1], EQUIPE_APREM))
 	planning.append(planning_periode(employes_nuit, ouvertures_jour[2], EQUIPE_NUIT))
 
+	# on opère ici des changements d'équipe
 	if changement_equipe:
 		liste_employes_disponibles = []
 
 		for e in employes_matin+employes_aprem+employes_nuit:
 			if e.est_disponible:
 				liste_employes_disponibles.append(e)
+
 
 		for poste in range(3):
 			for periode in planning:
