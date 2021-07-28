@@ -1,0 +1,203 @@
+html {
+	font-family: "Gill Sans", sans-serif;
+}
+
+#retour{
+
+	position: absolute;
+
+	top: 30px;
+	left: 30px;
+
+	padding: 2px 4px;
+
+	padding-top: 5px;
+
+	transition: 0.4s;
+}
+
+#retour:hover {
+	background-color: lightgray;
+}
+
+
+#wrapper {
+	margin-left: 30px;
+}
+
+#titres-periodes {
+
+	display: flex;
+	flex-direction: row;
+
+}
+
+#titres-periodes > h3 {
+	padding:  10px;
+	border: solid 1px black;
+}
+
+
+.data {
+	display: flex;
+	flex-direction: row;
+
+	width: 120px;
+	height: 40px;
+}
+
+.data > div{
+
+	display:  flex;
+
+	width: 40px;
+	height: 40px;
+
+	border: solid 1px black;
+
+	align-items: center;
+	justify-content: center;
+}
+
+.data > div > p:last-child {
+	position:  absolute;
+
+	background:  #F6F6F6;
+	
+	border: solid 1px black;
+
+	max-width: 500px;
+
+	opacity: 0;
+
+	transform: translate(45%, 150%);
+}
+
+.data > div:hover > p:last-child {
+	opacity: 1;
+}
+
+.data > div:nth-child(1){
+	background-color: #D92027;
+}
+
+.data > div:nth-child(2){
+	background-color: #FF9234;
+}
+
+.data > div:nth-child(3){
+	background-color: #FFCD3C;
+}
+
+.equipe {
+	font-size: 20px;
+}
+
+.equipe::before {
+	content: "Equipe: ";
+	color:  black;
+}
+
+
+h3.est-actif {
+	color: white;
+	background-color: black;
+}
+
+h3.pas-actif {
+	color: black;
+	background-color:white;
+}
+
+.planning-periode{
+	margin-left: 20px;
+}
+
+.machine {
+
+	margin-top: 20px;
+
+	display:  flex;
+	flex-direction: column;
+}
+
+.machine #nom-machine {
+	text-transform: uppercase;
+}
+
+.machine #nom-machine:hover {
+	cursor: pointer;
+	text-decoration:underline;
+}
+
+
+
+
+.employes-disponibles {
+	margin-left: 50px;
+
+	display:  flex;
+	flex-direction: row;
+	gap: 15px;
+}
+
+.employes-disponibles > p {
+
+	padding: 15px 30px;
+
+	text-align: center;
+
+	background-color:  lightgrey;
+
+	border: solid 1px black;
+}
+
+
+.postes {
+
+	margin-left: 50px;
+
+	display:  flex;
+	flex-direction: row;
+
+	align-items:center;
+
+	gap: 15px;
+}
+
+.postes > img {
+	width: 30px; 
+	height: 30px;
+	transform:  translateX(-5px);
+}
+
+.postes > p {
+
+	padding: 15px 30px;
+
+	text-align: center;
+
+	border: solid 1px black;
+}
+
+.postes p:nth-child(1) {
+	background-color: #6290C3;
+}
+
+.postes p:nth-child(2) {
+	background-color: #C2E7DA;
+}
+
+.postes p:nth-child(3) {
+	background-color:#F1FFE7;
+}
+
+.aucun-employe-disponible {
+	font-style: italic;
+	background-color: #f3f3f3;
+
+	padding-left: 15px;
+}
+
+button {
+}

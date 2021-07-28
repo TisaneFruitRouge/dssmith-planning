@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/planning.css') }}" />
+
+	<div id="wrapper">
+		<div id="titres-periodes">
+			<h3 id="titre-matin" class="est-actif">Matin</h3>
+			<h3 id="titre-aprem" class="pas-actif">Après-midi</h3>	
+			<h3 id="titre-nuit"  class="pas-actif">Nuit</h3>
+
+			<button id="get-file">Télécharger le fichier</button>
+		</div>
+
+	
+		{% for periode in planning %}
+
+			<div id="planning-{{ loop.index }}">
+
+				<div class="data">
+					<div>
+						<p>{{ data[loop.index-1][0]  }}</p>
+						<p>Nombre de postes de conducteurs non pourvus</p>
+					</div>
+					<div>
+						<p>{{ data[loop.index-1][1] }}</p>
+						<p>Nombre de postes de sous-conducteurs non pourvus</p>
+					</div>
+					<div>
+						<p>{{ data[loop.index-1][2] }}</p>
+						<p>Nombre d'autre postes non pourvus</p>
+					</div>
+				</div>
+
+				<p class="equipe">{{ periode[1] }}</p>
+
+				<ul class="machine">
+
+					{% for machine in periode[0] %}
+						<li>
+							<div id="nom-machine">{{ machine }}</div>
+							{% if machine == "Employés disponibles" %}
+								{% if periode[0][machine]|length > 0 %}
+									<div class="employes-disponibles">
+										{% for employe in periode[0][machine] %}
+									
+											<p>{{ employe }}</p>
+									
+										{% endfor %}
+									</div>	
+								{% else %}
+
+									<p class="aucun-employe-disponible">Aucun employé disponible</p>
+
+								{% endif %}
+							{% else %}
+								<div class="postes">
+									{% for poste in periode[0][machine] %}
+
+										{% if poste[3] == 1 %}
+											<p style="background-color: orange;">{{ poste[1] }}</p>
+										{% elif poste[3] == 2 %}
+											<p style="background-color: yellow;">{{ poste[1] }}</p>
+										{% else %}
+											<p>{{ poste[1] }}</p>
+										{% endif %}
+											
+										{% if poste[2] == 1 %}
+											<img src="{{ url_for('static',filename='images/icone_changement.png') }}" alt="Image changement équipe" />
+										{% endif %}
+
+									{% endfor %}	
+								</div>
+							{% endif %}
+						</li>
+						
+
+					{% endfor %}
+				
+				</ul>
+
+			</div>
+
+		{% endfor %}
+
+		
+	</div>
+
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
+	<!-- Pour la fonction download() -->
+	<script>
+
+		let json_data = {{ json_data|safe }};
+
+		let planning = json_data[0]
+		let dates = json_data[1]
+
+		let titre_matin = document.getElementById('titre-matin');
+		let titre_aprem = document.getElementById('titre-aprem');
+		let titre_nuit  = document.getElementById('titre-nuit');
+
+		let planning_matin = document.getElementById('planning-1');
+		let planning_aprem = document.getElementById('planning-2');
+		let planning_nuit  = document.getElementById('planning-3');
+
+
+		planning_nuit.style.display = 'none';
+		planning_aprem.style.display = 'none';
+		planning_matin.style.display = 'default';
+
+		titre_matin.addEventListener('click', e=>{
+
+			titre_matin.className = 'est-actif';
+			titre_aprem.className = 'pas-actif';
+			titre_nuit.className = 'pas-actif';
+
+			planning_nuit.style.display = 'none';
+			planning_aprem.style.display = 'none';
+			planning_matin.style.display = 'inline';
+		})
+
+		titre_aprem.addEventListener('click', e=>{
+
+			titre_matin.className = 'pas-actif';
+			titre_aprem.className = 'est-actif';
+			titre_nuit.className = 'pas-actif';
+
+			planning_nuit.style.display = 'none';
+			planning_aprem.style.display = 'inline';
+			planning_matin.style.display = 'none';
+		})
+
+		titre_nuit.addEventListener('click', e=>{
+
+			titre_matin.className = 'pas-actif';
+			titre_aprem.className = 'pas-actif';
+			titre_nuit.className = 'est-actif';
+
+			planning_nuit.style.display = 'inline';
+			planning_aprem.style.display = 'none';
+			planning_matin.style.display = 'none';
+		})
+		
+
+		let button_telechargment = document.getElementById('get-file')
+
+		button_telechargment.addEventListener('click', e=>{
+
+			let init = {
+					method: 'POST',
+					body: JSON.stringify({
+						"planning": planning,
+						"dates": dates,
+					}),
+					contentType: 'application/json',
+					headers: {
+	      				'Accept': 'application/json',
+	      				'Content-Type': 'application/json'
+	    			},
+					mode: 'cors',
+					cache: 'default'
+				} 
+
+			fetch('http://localhost:5000/create-file', init)
+			.then(res=>{
+            	return res.blob();
+        	})
+        	.then(blob=>{
+            	download(blob, "Planning")
+        	})
+        	.catch(err=>console.log(err));
+			})
+
+
+		postes = document.querySelectorAll(".postes > p")
+		
+		postes.forEach( poste => {
+
+			if (poste.innerHTML == "Poste non affecté")
+			{
+				poste.style.backgroundColor = "#FF0000"
+			}
+			if (poste.innerHTML == "Intérimaire")
+			{
+				poste.style.backgroundColor = "yellow";
+			}
+
+		} )
+
+
+		equipes = document.querySelectorAll(".equipe")
+
+		equipes.forEach(equipe=>{
+			if (equipe.innerHTML=="ROUGE")
+			{
+				equipe.style.color = "red"
+			}
+			else if (equipe.innerHTML=="VERTE")
+			{
+				equipe.style.color = "green"
+			}
+			else 
+			{
+				equipe.style.color = "blue"
+			}
+		})
+
+	</script>
+
+{% endblock %}

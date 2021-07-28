@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/forms/form_planning.css') }}" />
+
+	<form action="#" method="post">
+		<div id="equipes">
+			<div>
+				<label for="equipe_nuit">NUIT</label>
+				<select id="equipe_nuit" name="equipe_nuit" required>
+					<option value="VERTE" selected >Equipe verte</option>
+					<option value="BLEUE">Equipe bleue</option>
+					<option value="ROUGE">Equipe rouge</option>
+				</select>
+			</div>
+
+			<div>
+				<select id="equipe_aprem" name="equipe_aprem" required>
+					<option value="VERTE">Equipe verte</option>
+					<option value="BLEUE" selected >Equipe bleue</option>
+					<option value="ROUGE">Equipe rouge</option>
+				</select>
+				<label for="equipe_aprem" >APRES-MIDI</label>
+			</div>
+
+			<div>
+				<label for="equipe_matin" required>MATIN</label>
+				<select id="equipe_matin" name="equipe_matin">
+					<option value="VERTE">Equipe verte</option>
+					<option value="BLEUE">Equipe bleue</option>
+					<option value="ROUGE" selected >Equipe rouge</option>
+				</select>
+			</div>	
+		</div>
+
+		<div id="wrapper-changement-equipe">
+			<input type="checkbox" id="changement-equipe" name="changement-equipe" value="1" checked>
+			<label for="changement-equipe">Autoriser les changements d'équipe ?</label>
+		</div>
+
+
+		<div id="dates">
+			<div>
+				<label for="semaine">Semaine</label>
+				<input id="semaine" name="semaine" type="number" min="1" max="52" >
+			</div>
+
+
+			<div>
+				<label for="jour">Jour</label>
+				<input id="jour" name="jour" type="number" max="31" min="1" >
+			</div>
+
+			<div>
+				<label for="mois">Mois</label>
+				<input id="mois" name="mois" type="number" max="12" min="1" >
+			</div>
+
+			<div>
+				<label for="annee">Année</label>
+				<input id="annee" name="annee" type="number" max="9999" min="1" >
+			</div>
+		</div>
+
+
+		<button>Créer le planning</button>
+
+	</form>
+
+{% endblock %}

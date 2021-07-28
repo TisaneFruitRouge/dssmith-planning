@@ -1,0 +1,27 @@
+
+#wrapper {
+	position: absolute;
+
+	left: 50%;
+	transform: translateX(-50%);
+
+	font-size: 1.5em;
+
+	padding: 20px 50px;
+
+	background-color: white;
+
+	margin-bottom: 60px;
+
+	border-radius: 5px;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.conges {
+	display: flex;
+	flex-direction: row;
+}
+.conges p {
+	border:  solid 1px black;
+	padding: 5px;
+}
