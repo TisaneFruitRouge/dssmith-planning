@@ -13,7 +13,7 @@ annee_courante = date_courante.year
 mois_courant = date_courante.month
 jour_courant = date_courante.day
 
-FICHIER_DES_CONGES = "/transfert/Conges 06 21 au 09 21.xlsx"
+FICHIER_DES_CONGES = "/transfert/conges.xlsx"
 
 def employe_dans_liste_conge(employe, liste):
 	'''
