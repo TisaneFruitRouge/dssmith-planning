@@ -167,6 +167,6 @@ def get_excel_file(planning: list, conges: list, dates: list):
 		adjusted_width = (max_length + 2) * 1.2
 		ws.column_dimensions[column].width = adjusted_width
 
-	dest_filename = "/home/vincent/Travail/STAGE/Planning/Planning/planning.xlsx"
+	dest_filename = "./static/excel/planning.xlsx"
 	wb.save(filename = dest_filename)
 	return dest_filename;
