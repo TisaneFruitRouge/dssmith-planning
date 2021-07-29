@@ -36,6 +36,8 @@ def get_color(nom, liste_employes):
 					return "FF99FF99"
 				elif e.equipe == "BLEUE":
 					return "FF00FFFF"
+	else:
+		print(e)
 	return "FFFFFFFF"
 
 
