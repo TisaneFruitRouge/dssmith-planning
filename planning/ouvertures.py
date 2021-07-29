@@ -13,12 +13,14 @@ liste_machine_a_ne_pas_considerer = ["contremaitre","manutention","préparateur"
 
 liste_jours = [debut_lundi, debut_mardi, debut_mercredi, debut_jeudi, debut_vendredi]
 
-def get_ouvertures(chemin_tab_excel, semaine, annee):
+CHEMIN_OUVERTURES = "/transfert/ouvertures.xlsx"
+
+def get_ouvertures(semaine, annee):
 	'''
 		Cette fonction renvoie un dictionnaire des ouverture pour un semaine et année données en
 		entrée 
 	'''
-	ouvertures = load_workbook(chemin_tab_excel)
+	ouvertures = load_workbook(CHEMIN_OUVERTURES)
 
 	if (int(semaine) < 10):
 		semaine = f"0{semaine}" # si semaine = "9" alors on transforme semaine en "09"
@@ -63,5 +65,5 @@ def get_ouvertures(chemin_tab_excel, semaine, annee):
 
 if __name__ == "__main__":
 
-	ouv = get_ouvertures("../../DOCS STAGE/nvx/ouvertures.xlsx", 1, 2021)
+	ouv = get_ouvertures(1, 2021)
 	print(ouv)

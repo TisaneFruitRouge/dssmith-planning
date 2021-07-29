@@ -4,6 +4,7 @@ from openpyxl import *
 from openpyxl.styles import PatternFill
 import json
 
+CHEMIN_MATRICE = "/transfert/Matrice de polyvalence.xlsx"
 
 class Employe(object):
 	# Classe modélisant les employés
@@ -84,11 +85,11 @@ class Employe(object):
 		return 0
 
 
-def get_liste_machines(chemin_tab_excel):
+def get_liste_machines():
 	'''
 		Cette fonction renvoie la liste des machine de la matrice de polyvalence
 	'''
-	matrice_de_polyvalence = load_workbook(chemin_tab_excel)
+	matrice_de_polyvalence = load_workbook(CHEMIN_MATRICE)
 	ws = matrice_de_polyvalence.active
 
 	l = []
@@ -113,11 +114,11 @@ def get_nom_machine(poste):
 
 	return poste.strip()
 
-def get_competences(chemin_tab_excel):
+def get_competences():
 	'''
 		Cette fonction renvoie la liste des employés (de Class Employé)
 	'''
-	matrice_de_polyvalence = load_workbook(chemin_tab_excel) # on ouvre le tableau excel
+	matrice_de_polyvalence = load_workbook(CHEMIN_MATRICE) # on ouvre le tableau excel
 	liste_employes = list() # liste des employés
 
 
@@ -190,4 +191,4 @@ def getkeys(dic):
 
 if __name__ == '__main__':
 
-	employes = get_competences("Matrice de polyvalence.xlsx")
+	employes = get_competences()

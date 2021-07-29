@@ -45,7 +45,7 @@ def get_excel_file(planning: list, conges: list, dates: list):
 		Cette fonction génère le fichier excel du planning
 	'''
 
-	liste_employes = get_competences("Matrice de polyvalence.xlsx")
+	liste_employes = get_competences()
 
 
 	jour  = dates[0]
@@ -79,7 +79,7 @@ def get_excel_file(planning: list, conges: list, dates: list):
 		current_row = 4
 
 		# on parcours chaque machine
-		for machine in get_liste_machines("Matrice de polyvalence.xlsx"):
+		for machine in get_liste_machines():
 
 			nombre_de_postes = int(machine[1])
 			nom_machine = machine[4:].lower()
@@ -167,6 +167,6 @@ def get_excel_file(planning: list, conges: list, dates: list):
 		adjusted_width = (max_length + 2) * 1.2
 		ws.column_dimensions[column].width = adjusted_width
 
-	dest_filename = "./static/excel/planning.xlsx"
+	dest_filename = "/var/www/planning/planning/static/excel/planning.xlsx"
 	wb.save(filename = dest_filename)
 	return dest_filename;

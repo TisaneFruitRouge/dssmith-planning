@@ -8,8 +8,6 @@ from planning.ouvertures import *
 import json
 import datetime
 
-chemin_ouverture = "../../DOCS STAGE/nvx/ouvertures.xlsx"
-chemin_matrice_de_polyvalence = "Matrice de polyvalence.xlsx"
 
 def get_liste_employes_machine(employes, machine):
 	"""
@@ -140,7 +138,7 @@ def remplacer_employes_par_nom(planning):
 		son nom et se permet de rajouter des intérimaire là où il pourrait y en avoir besoin
 		et de signaler les postes non affectés
 	'''
-	for machine in get_liste_machines(chemin_matrice_de_polyvalence):
+	for machine in get_liste_machines():
 
 		# pour chaque machine, les postes vides sont affectés à des intérims ou non pourvus
 
@@ -351,9 +349,9 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 
 def get_planning(jour: int, mois: int, annee: int, semaine: str ,matin: str, aprem: str, nuit: str, changement_equipe: int):
 
-	employes     = get_competences(chemin_matrice_de_polyvalence) # on créer la liste des employés
+	employes     = get_competences() # on créer la liste des employés
 	liste_conges = conges(jour, mois, annee) # on créer la liste des congés
-	ouvertures   = get_ouvertures(chemin_ouverture, semaine, annee) # on créer la liste des onvertures
+	ouvertures   = get_ouvertures(semaine, annee) # on créer la liste des onvertures
 
 	liste_jour = ["Lundi", "Mardi", "Mercredi","Jeudi", "Vendredi","Samedi"]
 

@@ -30,6 +30,8 @@ html {
 	display: flex;
 	flex-direction: row;
 
+	align-items: center;
+
 }
 
 #titres-periodes > h3 {
@@ -200,4 +202,7 @@ h3.pas-actif {
 }
 
 button {
+	height: 50px;
+	margin-left: 20px
+
 }
