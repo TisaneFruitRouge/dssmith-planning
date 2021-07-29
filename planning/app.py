@@ -80,7 +80,7 @@ def conges():
 		liste_conges_couleur = []
 
 		for conge in liste_conges:
-			liste_conges_couleur.append( (conge[0], conge[1], get_color(conge[0])) )
+			liste_conges_couleur.append( (conge[0], conge[1], '#'+get_color(conge[0])) )
 
 		return render_template("conges.html",
 								conges=liste_conges_couleur,
