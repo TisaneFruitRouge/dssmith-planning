@@ -15,12 +15,12 @@ liste_jours = [debut_lundi, debut_mardi, debut_mercredi, debut_jeudi, debut_vend
 
 CHEMIN_OUVERTURES = "/transfert/ouvertures.xlsx"
 
-def get_ouvertures(semaine, annee):
+def get_ouvertures(semaine, annee, chemin_ouvertures=CHEMIN_OUVERTURES):
 	'''
 		Cette fonction renvoie un dictionnaire des ouverture pour un semaine et année données en
 		entrée 
 	'''
-	ouvertures = load_workbook(CHEMIN_OUVERTURES)
+	ouvertures = load_workbook(chemin_ouvertures)
 
 	if (int(semaine) < 10):
 		semaine = f"0{semaine}" # si semaine = "9" alors on transforme semaine en "09"

@@ -85,11 +85,11 @@ class Employe(object):
 		return 0
 
 
-def get_liste_machines():
+def get_liste_machines(chemin_matrice=CHEMIN_MATRICE):
 	'''
 		Cette fonction renvoie la liste des machine de la matrice de polyvalence
 	'''
-	matrice_de_polyvalence = load_workbook(CHEMIN_MATRICE)
+	matrice_de_polyvalence = load_workbook(chemin_matrice)
 	ws = matrice_de_polyvalence.active
 
 	l = []
@@ -108,17 +108,20 @@ def get_nom_machine(poste):
 		cette fonction renvoie le nom de la machine
 	'''
 	titre_poste = ["palettiseur ", "sous conducteur ", "conducteur ", "prérégleur ", "préparateur"]
+	# cas unique ou la "machine" est "préparateur" => on doit gérer ce cas différement des autres
+	if poste.lower().replace("préparateur", "").strip() == "":
+		return "préparateur"
+	else:
+		for p in titre_poste:
+			poste = poste.replace(p, "", 1)
 
-	for p in titre_poste:
-		poste = poste.replace(p, "", 1)
+		return poste.strip().lower()
 
-	return poste.strip()
-
-def get_competences():
+def get_competences(chemin_matrice=CHEMIN_MATRICE):
 	'''
 		Cette fonction renvoie la liste des employés (de Class Employé)
 	'''
-	matrice_de_polyvalence = load_workbook(CHEMIN_MATRICE) # on ouvre le tableau excel
+	matrice_de_polyvalence = load_workbook(chemin_matrice) # on ouvre le tableau excel
 	liste_employes = list() # liste des employés
 
 
@@ -191,4 +194,4 @@ def getkeys(dic):
 
 if __name__ == '__main__':
 
-	employes = get_competences()
+	employes = get_competences("Matrice de polyvalence.xlsx")

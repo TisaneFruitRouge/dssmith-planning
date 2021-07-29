@@ -27,12 +27,12 @@ def employe_dans_liste_conge(employe, liste):
 
 
 
-def conges(jour: int=jour_courant, mois: int=mois_courant, annee: int=annee_courante):
+def conges(jour: int=jour_courant, mois: int=mois_courant, annee: int=annee_courante, fichier=FICHIER_DES_CONGES):
 	'''
 		Cette fonction renvoie une liste des employés en congé, avec la raison de leur absence
 	'''
 
-	conges = load_workbook(FICHIER_DES_CONGES)
+	conges = load_workbook(fichier)
 	
 	ws = conges.worksheets[mois-1]
 	
