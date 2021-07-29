@@ -3,7 +3,7 @@ from openpyxl.styles import PatternFill, Border, Side
 
 import datetime
 
-from competences import *
+from planning.competences import *
 
 tab_jour = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi"]
 

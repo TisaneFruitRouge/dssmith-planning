@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 
-from conges import *
-from competences import *
-from ouvertures import *
+from planning.conges import *
+from planning.competences import *
+from planning.ouvertures import *
 
 import json
 import datetime

@@ -3,9 +3,9 @@
 from flask import Flask, jsonify, render_template, request, send_file
 from flask_cors import CORS
 
-from planning import *
-from excel import get_excel_file
-from conges import conges as get_liste_conges
+from planning.planning import *
+from planning.excel import get_excel_file
+from planning.conges import conges as get_liste_conges
 
 import json
 
