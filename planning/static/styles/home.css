@@ -18,12 +18,18 @@ li {
 
 	border-radius: 25px;
 
-	background-color: #80D4DF;
+	background-color: white;
 
 	width: 1000px;
 
-	border:  2px solid #51C5D4;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 
+	transition: 0.4s
+
+}
+
+li:hover{
+	transform: translateY(-5px);
 }
 
 li:first-child {
@@ -51,6 +57,7 @@ li > a
 li > a:hover {
 	background-color:#EAA83A;
 }
+
 
 
 
