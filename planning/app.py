@@ -4,7 +4,7 @@ from flask import Flask, jsonify, render_template, request, send_file
 from flask_cors import CORS
 
 from planning.planning import *
-from planning.excel import get_excel_file
+from planning.excel import get_excel_file, get_color
 from planning.conges import conges as get_liste_conges
 
 import json
@@ -77,8 +77,13 @@ def conges():
 
 		liste_conges = get_liste_conges(jour,mois,annee)
 
+		liste_conges_couleur = []
+
+		for conge in liste_conges:
+			liste_conges_couleur.append(conge[0], conge[1], get_color(conge[0]))
+
 		return render_template("conges.html",
-								conges=liste_conges,
+								conges=liste_conges_couleur,
 								json_data=json.dumps(liste_conges),
 								data={"annee": annee, "mois": mois, "jour": jour})
 

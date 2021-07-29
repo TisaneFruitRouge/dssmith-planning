@@ -16,11 +16,15 @@ def get_periode(index):
 	elif index==1: return "Après-midi"
 	else: return "Nuit" 
 
-def get_color(nom, liste_employes):
+def get_color(nom):
 	'''
 		Considérant le nom d'un employé, cette fonction parcours la liste de tout les employés
 		et renvoie la couleur associée à l'employé fourni en entrée
 	'''
+
+	liste_employes = get_competences()
+
+
 	for e in liste_employes:
 
 		if e.nom == nom:
@@ -36,8 +40,6 @@ def get_color(nom, liste_employes):
 					return "FF99FF99"
 				elif e.equipe == "BLEUE":
 					return "FF00FFFF"
-	else:
-		print(e)
 	return "FFFFFFFF"
 
 
@@ -46,8 +48,6 @@ def get_excel_file(planning: list, conges: list, dates: list):
 	'''
 		Cette fonction génère le fichier excel du planning
 	'''
-
-	liste_employes = get_competences()
 
 
 	jour  = dates[0]
