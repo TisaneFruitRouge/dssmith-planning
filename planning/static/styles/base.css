@@ -48,3 +48,14 @@ h1{
 #retour:hover {
 	background-color: lightgray;
 }
+
+#logo {
+
+	width: 120px;
+	height: 80px;
+
+	float:right;
+
+	margin: 20px;
+
+}
