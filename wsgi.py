@@ -5,8 +5,6 @@ sys.path.append("/var/www/planning")
 
 from planning.app import app as application
 
-print(application.__dict__)
-
 if __name__=="__main__":
 
 	application.run()

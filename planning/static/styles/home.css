@@ -3,6 +3,13 @@ ul {
 
 	margin: 0px 20px;
 	padding: 0px 40px;
+
+	display: flex;
+	flex-direction: column;
+
+	justify-content: center;
+	align-items: center;
+
 }
 
 li {
@@ -11,13 +18,43 @@ li {
 
 	border-radius: 25px;
 
-	background-color: lightblue;
+	background-color: #80D4DF;
+
+	width: 1000px;
+
+	border:  2px solid #51C5D4;
+
 }
 
 li:first-child {
 	margin-top: 20px;
 }
 
-li h3 {
+li > h3 {
 	margin-top: 0px;
 }
+
+li > a
+{
+	padding: 3px;
+
+	color: black;
+	text-decoration: none;
+
+	background-color: #FEC56B;
+
+	border-radius:5px;
+
+	transition: 0.4s;
+}
+
+li > a:hover {
+	background-color:#EAA83A;
+}
+
+
+
+
+
+
+
