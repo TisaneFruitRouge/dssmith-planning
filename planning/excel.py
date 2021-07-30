@@ -67,7 +67,6 @@ def get_excel_file(planning: list, conges: list, dates: list):
 
 	jour = tab_jour[datetime.datetime(annee, mois, jour).weekday()].upper()
 
-
 	ws.cell(row=1, column=1, value=f"Semaine {semaine}")
 	ws.cell(row=2, column=1, value=jour)
 	# on parcours chaque période
@@ -76,17 +75,36 @@ def get_excel_file(planning: list, conges: list, dates: list):
 		equipe  = _periode[1]
 
 		cell = ws.cell(column=3+index, row=2, value=get_periode(index))
+		cell_sec = ws.cell(column=8+index, row=2, value=get_periode(index))
+
 		cell.border = border
+		cell_sec.border = border
 
 		current_row = 4
+		offset = 0
+		moitie_atteinte = False
+
+		liste_machines = get_liste_machines()
 
 		# on parcours chaque machine
-		for machine in get_liste_machines():
+		for k, machine in enumerate(liste_machines):
+
+			if k > len(liste_machines)//2 and not moitie_atteinte:
+				offset=5
+				current_row = 4
+				moitie_atteinte = True
+
+			print(k)
+			print(len(liste_machines))
 
 			nombre_de_postes = int(machine[1])
 			nom_machine = machine[4:].lower()
 
-			cell = ws.cell(column=2, row=current_row, value=nom_machine.upper())
+			print(nom_machine)
+			print(offset)
+			print(current_row)
+
+			cell = ws.cell(column=2+offset, row=current_row, value=nom_machine.upper())
 			cell.border = border
 
 			# si la machine ne tourne pas sur cette période, on saute cette machine
@@ -103,7 +121,7 @@ def get_excel_file(planning: list, conges: list, dates: list):
 						current_row+=1
 						continue
 
-					cellule = ws.cell(column=3+index, row=current_row, value=nom)
+					cellule = ws.cell(column=3+index+offset, row=current_row, value=nom)
 					current_row+=1
 
 
@@ -121,16 +139,16 @@ def get_excel_file(planning: list, conges: list, dates: list):
 			current_row+=1
 
 
-	ws.cell(row=2, column=7, value="Nom")
-	ws.cell(row=2, column=8, value="Raison")
+	ws.cell(row=2, column=7+offset, value="Nom")
+	ws.cell(row=2, column=8+offset, value="Raison")
 
 	row = 4
 
 	# on affiche les congés
 	for (index, e) in enumerate(conges):
 
-		cellule_nom    = ws.cell(row=row, column=7, value=e[0])
-		cellule_raison = ws.cell(row=row, column=8, value=e[1])
+		cellule_nom    = ws.cell(row=row, column=7+offset, value=e[0])
+		cellule_raison = ws.cell(row=row, column=8+offset, value=e[1])
 
 		cellule_raison.border = border
 		cellule_nom.border    = border
@@ -142,7 +160,7 @@ def get_excel_file(planning: list, conges: list, dates: list):
 
 	row += 4
 
-	ws.cell(row=row, column=7, value="Personnel non affecté")
+	ws.cell(row=row, column=7+offset, value="Personnel non affecté")
 
 	liste_employes_disponibles = planning[0][0]["Employés disponibles"]+ \
 								 planning[1][0]["Employés disponibles"]+ \
@@ -151,7 +169,7 @@ def get_excel_file(planning: list, conges: list, dates: list):
 	# on affiche les employés disponibles							 
 	for e in liste_employes_disponibles:
 		row+=2
-		cellule=ws.cell(row=row, column=7, value=e)
+		cellule=ws.cell(row=row, column=7+offset, value=e)
 		cellule.border=border
 		color=get_color(e)
 		cellule.fill=PatternFill(fill_type='solid', start_color=color, end_color=color)
