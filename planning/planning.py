@@ -39,7 +39,7 @@ def classe_liste_employes(liste_employes):
 			l_3.append(e)
 		elif e[1] == 4:
 			l_4.append(e)
-			 
+
 	return l_4+l_3+l_2+l_1
 
 
@@ -70,7 +70,7 @@ def get_classement_ouvriers(employes: list, ouvertures: dict):
 					classement_poste_ouvrier[machine][1].append((e, competence[2]))
 				if (competence[1] == 2):
 					classement_poste_ouvrier[machine][2].append((e, competence[2]))
-		
+
 		for i in range(len(classement_poste_ouvrier[machine])):
 			classement_poste_ouvrier[machine][i] = classe_liste_employes(classement_poste_ouvrier[machine][i])	
 
@@ -189,7 +189,7 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 
 	planning = {}
 
-	classement_poste_ouvrier = get_classement_ouvriers(employes, ouvertures)	
+	classement_poste_ouvrier = get_classement_ouvriers(employes, ouvertures)
 
 	for machine in getkeys(ouvertures): # On place d'abord les ouvriers sur leur poste type (4)
 
@@ -199,16 +199,13 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 
 			if (classement_poste_ouvrier[machine][poste] == [] or not planning[machine][poste] == None): 
 				continue
-			else: 
-				employe = classement_poste_ouvrier[machine][poste][0] # le premier employe est souvent celui
-																	  # occupant le poste pour un planning
-																	  # 'type'
+			else:
+				employe = classement_poste_ouvrier[machine][poste][0] # le premier employe est souvent celui occupant le poste 'type'
+
 				if employe[1] == 4: # on test quand même si il a le niveau de compétence 4
 					employe[0].est_disponible = False
 					employe[0].poste_occupe = (machine, poste)
-					planning[machine][poste] = (poste,
-												employe[0],
-												0)
+					planning[machine][poste] = (poste, employe[0],0)
 
 	for poste in range(3): # on essaye de remplir chaque poste grâce au classement des ouvriers
 		for machine in getkeys(ouvertures):
@@ -305,7 +302,6 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 				if e.tient_poste(machine, 0):
 
 					planning[e.poste_occupe[0]][e.poste_occupe[1]] = None
-					
 					planning[machine][0] = (0, e, 0)
 					e.est_disponible = False
 					e.poste = (machine, 0)
@@ -345,7 +341,7 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 		e.est_disponible = True
 
 	planning["Employés disponibles"] = [] # on créer la liste pour les employés non afféctés
-	
+
 	return [planning, equipe]
 
 
@@ -421,7 +417,6 @@ def get_planning(jour: int, mois: int, annee: int, semaine: str ,matin: str, apr
 						if e.tient_poste(machine, poste):
 							e.est_disponible = False
 							liste_employes_disponibles.remove(e)
-							
 							periode[0][machine][poste] = (poste, e, 1, get_regime(e))
 
 

@@ -131,11 +131,11 @@ def get_competences(chemin_matrice=CHEMIN_MATRICE):
 	for (index, equipe) in enumerate(matrice_de_polyvalence.worksheets): # on parcours chaque equipe
 
 		ws = matrice_de_polyvalence.worksheets[index]
-		
+
 		equipe = ws.title.split(' ')[1] # on recupere le nom de l'equipe (verte, bleue ou rouge)
 
 		for r in range(3, ws.max_row):	# on parcours toutes les lignes
-			
+
 			est_interim = False
 
 			employe = ws.cell(column=1, row=r).value
@@ -156,36 +156,36 @@ def get_competences(chemin_matrice=CHEMIN_MATRICE):
 			for c in range(1, ws.max_column): # on parcours toutes les colonnes
 				niveau_compétence = ws.cell(column=c, row=r).value
 				if (niveau_compétence in [1,2,3,4]): # si la case [c,r] à la valeur 1 alors l'emploé sait conduire ce poste
-					
-					poste = ws.cell(column=c, row=2).value.lower()
-					machine = get_nom_machine(poste)
-					poste = poste.replace(machine, "").strip()
+
+					nom_poste = ws.cell(column=c, row=2).value.lower()
+					machine = get_nom_machine(nom_poste)
+					nom_poste = nom_poste.replace(machine, "").strip()
 
 					if (machine == "préparateur"): 
 						# le "conducteur" de préparateur est appelé "préparateur" et aurait donc eu
 						# un poste 2 alors qu'il devrait avoir un poste 0. C'est ce qu'on rectifie ici
 						poste = 0
-					if (machine == "contremaîtres"):
-						if (poste.split(" ")[1].lower()=="intégré"):
+					elif (machine == "contremaîtres"):
+						if (nom_poste.split(" ")[1].lower()=="intégré"):
 							poste = 0
 						else:
 							poste = 1
 
-					elif poste == "conducteur":
+					elif nom_poste == "conducteur":
 						poste = 0
-					elif poste == "sous conducteur":
+					elif nom_poste == "sous conducteur":
 						poste = 1
 					else : 
 						poste = 2
 					competences.append((machine, poste, niveau_compétence))
-				
+
 
 			e = Employe(employe, equipe, competences, regime) # on créer l'employe et on l'ajoute à la liste
-			
+			print(e)
 			e.est_interimaire = est_interim
 
 			liste_employes.append(e)
-	
+
 	return liste_employes
 
 
