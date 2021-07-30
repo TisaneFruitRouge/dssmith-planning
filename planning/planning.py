@@ -286,6 +286,8 @@ def planning_periode(employes: list, ouvertures: dict, equipe: str):
 	# on liste les employés sur une machine où il n'y a pas de conducteurs
 	for machine in getkeys(ouvertures):
 
+		if machine.lower() == "contremaîtres": continue # on ne fait psa cela si il s'agit des contremaîtres
+
 		if planning[machine][0] == None:
 
 			for poste in range(1,3):
