@@ -47,7 +47,7 @@ def get_ouvertures(semaine, annee, chemin_ouvertures=CHEMIN_OUVERTURES):
 				case = str(chr(ord(jour[1])+i) + str(j+3)) # On détermine ici la case que l'on veut vérifier
 				valeur = recap[case].value
 
-				if (valeur == 1): # Dans le cas ou la machine est ouverte
+				if (valeur == 1 or valeur == "arrêt maint" or valeur == "arrêt nett"): # Dans le cas ou la machine est ouverte
 					nom_de_la_machine = recap["A"+str(j+3)].value.lower(  )
 
 					if (nom_de_la_machine not in liste_machine_a_ne_pas_considerer):
