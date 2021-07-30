@@ -31,7 +31,7 @@ def get_color(nom):
 
 			if not e.regime == "N":
 				return "FFFFBF00"
-			elif e.est_interimaire:
+			elif e.est_interimaire or nom.lower() == "intérimaire":
 				return "FFFFFF00"
 			else :
 				if e.equipe == "ROUGE":
