@@ -31,7 +31,7 @@ def get_color(nom):
 
 			if not e.regime == "N":
 				return "FFFFBF00"
-			elif e.est_interimaire or nom.lower() == "intérimaire":
+			elif e.est_interimaire:
 				return "FFFFFF00"
 			else :
 				if e.equipe == "ROUGE":
@@ -124,8 +124,9 @@ def get_excel_file(planning: list, conges: list, dates: list):
 					cellule = ws.cell(column=3+index+offset, row=current_row, value=nom)
 					current_row+=1
 
-
-					if nom=="Poste non affecté":
+					if nom == "Intérimaire":
+						color = "FFFFFF00"
+					elif nom=="Poste non affecté":
 						color = "FFFF0000"
 					else:
 						color = get_color(nom)
