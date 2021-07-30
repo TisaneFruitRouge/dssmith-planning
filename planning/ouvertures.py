@@ -9,7 +9,7 @@ debut_mercredi = ["Mercredi","L"]
 debut_jeudi    = ["Jeudi","O"]
 debut_vendredi = ["Vendredi","R"]
 
-liste_machine_a_ne_pas_considerer = ["contremaitre","manutention","préparateur","centre-pose","presse à balle"]
+liste_machine_a_ne_pas_considerer = ["contremaitre","manutention","préparateur","centre-pose","presse à balle", "MO1", "MO2"]
 
 liste_jours = [debut_lundi, debut_mardi, debut_mercredi, debut_jeudi, debut_vendredi]
 
@@ -43,7 +43,7 @@ def get_ouvertures(semaine, annee, chemin_ouvertures=CHEMIN_OUVERTURES):
 		for i in range(3):
 			ouvertures_dict[jour[0]][i] = dict()
 			for j in range(1, 26):
-
+ 
 				case = str(chr(ord(jour[1])+i) + str(j+3)) # On détermine ici la case que l'on veut vérifier
 				valeur = recap[case].value
 

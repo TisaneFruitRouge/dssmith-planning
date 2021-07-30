@@ -6,7 +6,7 @@
 	top: 50%;
 	left: 50%;
 
-	transform: translate(-50%, -65%);
+	transform: translate(-50%, -80%);
 	
 	width: 65vw;
 
@@ -16,6 +16,16 @@ h2	{
 
 	text-align: center;
 
+}
+
+h2 > em {
+	transition: 0.6s;
+	font-style: normal;
+	
+}
+
+h2:hover > em {
+	color: red;
 }
 
 .infos {
@@ -28,28 +38,32 @@ h2	{
 
 }
 
-.infos> div {
+ul {
+	list-decoration: circle;
+}
+
+.infos li {
 	display: flex;
 	flex-direction: row;
 
 	align-items: center;
 }
 
-.infos > div > h4 {
+.infos li > h4 {
 	font-weight: bold;
 }
 
-.infos > div > h4::after {
+.infos li > h4::after {
 	content: " "
 	white-space: pre-wrap;
 }
 
 
-.infos > div > p {
+.infos li > p {
 	
 }
 
-.infos > div > p:hover {
+.infos li > p:hover {
 	cursor: pointer;
 
 }
