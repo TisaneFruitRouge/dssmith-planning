@@ -23,6 +23,9 @@ form {
 
 input {
 	font-size: 1.3em;
+	text-align: center;	
+
+	width: 350px;
 }
 
 label {

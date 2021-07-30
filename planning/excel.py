@@ -112,7 +112,7 @@ def get_excel_file(planning: list, conges: list, dates: list):
 					elif nom=="Poste non affecté":
 						color = "FFFF0000"
 					else:
-						color = get_color(nom, liste_employes)
+						color = get_color(nom)
 
 					fill = PatternFill(fill_type='solid', start_color=color, end_color=color)
 					cellule.fill=fill
@@ -134,7 +134,7 @@ def get_excel_file(planning: list, conges: list, dates: list):
 
 		cellule_raison.border = border
 		cellule_nom.border    = border
-		color = get_color(e[0], liste_employes)
+		color = get_color(e[0])
 		cellule_nom.fill = PatternFill(fill_type='solid', start_color=color, end_color=color)
 
 		row += 2
@@ -153,7 +153,7 @@ def get_excel_file(planning: list, conges: list, dates: list):
 		row+=2
 		cellule=ws.cell(row=row, column=7, value=e)
 		cellule.border=border
-		color=get_color(e, liste_employes)
+		color=get_color(e)
 		cellule.fill=PatternFill(fill_type='solid', start_color=color, end_color=color)
 
 
