@@ -1,6 +1,55 @@
+
+.wrapper {
+	
+	position: absolute;
+
+	top: 50%;
+	left: 50%;
+
+	transform: translate(-50%, -65%);
+	
+	width: 65vw;
+
+}
+
 h2	{
 
-	left: 50%;
-	transform:  translateX(-50%);
+	text-align: center;
+
+}
+
+.infos {
+
+	margin-top: 20px;
+
+	display: flex;
+	flex-direction: column;
+	
+
+}
+
+.infos> div {
+	display: flex;
+	flex-direction: row;
+
+	align-items: center;
+}
+
+.infos > div > h4 {
+	font-weight: bold;
+}
+
+.infos > div > h4::after {
+	content: " "
+	white-space: pre-wrap;
+}
+
+
+.infos > div > p {
+	
+}
+
+.infos > div > p:hover {
+	cursor: pointer;
 
 }

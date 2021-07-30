@@ -3,13 +3,28 @@
 {% block content %}
 
 	<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/500.css') }}" />
+	
+	
+	<div class="wrapper">
+		<h2>Le serveur a rencontré une erreur inattendue..</h1>
 
-	<h2>Le serveur a rencontré un erreur inattendue..</h1>
-
-	<div>
-		<p>Veuillez contacter Sébastien VOINOT pour plus d'informations</p>
-		<p>Mail: sebastien.voinot@dssmith.com</p>
-		<p>Numéro de téléphone: </p>
+		<div class="infos">
+			<p>Veuillez contacter Sébastien VOINOT pour plus d'informations</p>
+		
+			<div>
+				<h4>Mail: </h4>
+				<p>sebastien.voinot@dssmith.com</p>
+			</div>
+		
+			<div>
+				<h4>Numéro de téléphone: </h4> 
+				<p>03 89 72 21 73</p>
+			</div>
+		</div>
 	</div>
 
+
+	<script>
+
+	</script>
 {% endblock %}
