@@ -125,9 +125,7 @@ def get_excel_file(planning: list, conges: list, dates: list):
 					current_row+=1
 
 
-					if nom=="Intérimaire":
-						color = "FF00FFFF"
-					elif nom=="Poste non affecté":
+					if nom=="Poste non affecté":
 						color = "FFFF0000"
 					else:
 						color = get_color(nom)
