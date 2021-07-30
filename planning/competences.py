@@ -111,6 +111,8 @@ def get_nom_machine(poste):
 	# cas unique ou la "machine" est "préparateur" => on doit gérer ce cas différement des autres
 	if poste.lower().replace("préparateur", "").strip() == "":
 		return "préparateur"
+	elif poste.split(" ")[0].lower() == "contremaître":
+		return "contremaîtres"
 	else:
 		for p in titre_poste:
 			poste = poste.replace(p, "", 1)
@@ -163,6 +165,11 @@ def get_competences(chemin_matrice=CHEMIN_MATRICE):
 						# le "conducteur" de préparateur est appelé "préparateur" et aurait donc eu
 						# un poste 2 alors qu'il devrait avoir un poste 0. C'est ce qu'on rectifie ici
 						poste = 0
+					if (machine == "contremaîtres"):
+						if (poste.split(" ")[1].lower()=="intégré"):
+							poste = 0
+						else:
+							poste = 1
 
 					elif poste == "conducteur":
 						poste = 0

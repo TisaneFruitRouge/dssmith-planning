@@ -89,7 +89,7 @@ def get_excel_file(planning: list, conges: list, dates: list):
 		# on parcours chaque machine
 		for k, machine in enumerate(liste_machines):
 
-			if k > len(liste_machines)//2 and not moitie_atteinte:
+			if k >= len(liste_machines)//2 and not moitie_atteinte:
 				offset=5
 				current_row = 4
 				moitie_atteinte = True

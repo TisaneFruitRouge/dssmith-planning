@@ -42,6 +42,7 @@ def get_ouvertures(semaine, annee, chemin_ouvertures=CHEMIN_OUVERTURES):
 
 		for i in range(3):
 			ouvertures_dict[jour[0]][i] = dict()
+			ouvertures_dict[jour[0]][i]["contremaîtres"] = "1"
 			for j in range(1, 26):
  
 				case = str(chr(ord(jour[1])+i) + str(j+3)) # On détermine ici la case que l'on veut vérifier
@@ -53,13 +54,12 @@ def get_ouvertures(semaine, annee, chemin_ouvertures=CHEMIN_OUVERTURES):
 					if (nom_de_la_machine not in liste_machine_a_ne_pas_considerer):
 						ouvertures_dict[jour[0]][i][nom_de_la_machine] = "1"
 
-						
+
 			ouvertures_dict[jour[0]][i]["presse à balle"] = "1"
 			ouvertures_dict[jour[0]][i]["centre-pose"] = "1"
 			ouvertures_dict[jour[0]][i]["préparateur"] = "1"
 			ouvertures_dict[jour[0]][i]["manutention lourd"] = "1"
 			ouvertures_dict[jour[0]][i]["manutention intégré"] = "1"
-				
 	return ouvertures_dict
 
 
