@@ -1,10 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from openpyxl import *
+import openpyxl as pyxl
 from openpyxl.styles import PatternFill
 import json
 
-CHEMIN_MATRICE = "/transfert/Matrice de polyvalence.xlsx"
+with open("conf.json", 'r') as myconf:
+	data = myconf.read()
+
+conf = json.loads(data)
+
+CHEMIN_MATRICE = conf["chemins"]["matrice"]
 
 class Employe(object):
 	# Classe modélisant les employés
@@ -89,7 +94,7 @@ def get_liste_machines(chemin_matrice=CHEMIN_MATRICE):
 	'''
 		Cette fonction renvoie la liste des machine de la matrice de polyvalence
 	'''
-	matrice_de_polyvalence = load_workbook(chemin_matrice)
+	matrice_de_polyvalence = pyxl.load_workbook(chemin_matrice)
 	ws = matrice_de_polyvalence.active
 
 	l = []
@@ -123,7 +128,7 @@ def get_competences(chemin_matrice=CHEMIN_MATRICE):
 	'''
 		Cette fonction renvoie la liste des employés (de Class Employé)
 	'''
-	matrice_de_polyvalence = load_workbook(chemin_matrice) # on ouvre le tableau excel
+	matrice_de_polyvalence = pyxl.load_workbook(chemin_matrice) # on ouvre le tableau excel
 	liste_employes = list() # liste des employés
 
 

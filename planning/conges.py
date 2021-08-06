@@ -3,7 +3,7 @@
 
 from datetime import date
 from calendar import monthrange
-from openpyxl import *
+import openpyxl as pyxl
 import json
 
 
@@ -13,7 +13,13 @@ annee_courante = date_courante.year
 mois_courant = date_courante.month
 jour_courant = date_courante.day
 
-FICHIER_DES_CONGES = "/transfert/Conges.xlsx"
+
+with open("conf.json", 'r') as myconf:
+	data = myconf.read()
+
+conf = json.loads(data)
+
+FICHIER_DES_CONGES = conf["chemins"]["conges"]
 
 def employe_dans_liste_conge(employe, liste):
 	'''
@@ -32,7 +38,7 @@ def conges(jour: int=jour_courant, mois: int=mois_courant, annee: int=annee_cour
 		Cette fonction renvoie une liste des employés en congé, avec la raison de leur absence
 	'''
 
-	conges = load_workbook(fichier)
+	conges = pyxl.load_workbook(fichier)
 	
 	ws = conges.worksheets[mois-1]
 	

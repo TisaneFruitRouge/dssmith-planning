@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from openpyxl import *
+import openpyxl as pyxl
 import json
 
 debut_lundi    = ["Lundi","F"] # colonne du tableau excel sur laquelle débute chaque jour
@@ -13,14 +13,19 @@ liste_machine_a_ne_pas_considerer = ["contremaitre","manutention","préparateur"
 
 liste_jours = [debut_lundi, debut_mardi, debut_mercredi, debut_jeudi, debut_vendredi]
 
-CHEMIN_OUVERTURES = "/transfert/ouvertures.xlsx"
+with open("conf.json", 'r') as myconf:
+	data = myconf.read()
+
+conf = json.loads(data)
+
+CHEMIN_OUVERTURES = conf["chemins"]["ouvertures"]
 
 def get_ouvertures(semaine, annee, chemin_ouvertures=CHEMIN_OUVERTURES):
 	'''
 		Cette fonction renvoie un dictionnaire des ouverture pour un semaine et année données en
 		entrée 
 	'''
-	ouvertures = load_workbook(chemin_ouvertures)
+	ouvertures = pyxl.load_workbook(chemin_ouvertures)
 
 	if (int(semaine) < 10):
 		semaine = f"0{semaine}" # si semaine = "9" alors on transforme semaine en "09"
